@@ -1,6 +1,8 @@
 package moblima.dao;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,8 +44,17 @@ public class CinemaDao implements Dao<Cinema>{
     public List<Cinema> getAll(){
 		return cinemas;
 	}
-    
-	
+    /**
+     * Prints all cinemas.
+     */
+	public void printAll() {
+		for(int i = 0; i < cinemas.size(); i++) {
+			Cinema c = (Cinema)cinemas.get(i);
+			System.out.println("Cineplex: " + c.getCineplex().getName());
+			System.out.println("Code: " + c.getCode());
+			System.out.println("Cinema: " + "Hall " + c.getCode().substring(c.getCode().length()-1));
+		}
+	}
 	//print all cinemas at cineplex
 	/**
 	 * Prints all Cinemas available at a specific Cineplex.
@@ -53,13 +64,42 @@ public class CinemaDao implements Dao<Cinema>{
 		for(int i = 0; i < cinemas.size(); i++) {
 			Cinema c = (Cinema)cinemas.get(i);
 			if(c.getCineplex() == cineplex) {
-				System.out.println("Cinema: " + "Hall" + c.getCode().substring(c.getCode().length()-1));
-				System.out.println("");
+				System.out.println("Cinema: " + "Hall " + c.getCode().substring(c.getCode().length()-1));
 			}
 			
 		}
 	}
 	
+	/**
+	 * Gets the cinema count for a certain cineplex.
+	 * @param cineplex
+	 * @return cinema count.
+	 */
+	public int getCinemaCount(Cineplex cineplex) {
+		int count = 0;
+		for(int i = 0; i < cinemas.size(); i++) {
+			Cinema c = (Cinema)cinemas.get(i);
+			if(c.getCineplex().getName().equals(cineplex.getName())) {
+				count++;
+			}
+		}
+		return count;
+	}
+	/**
+	 * Gets a certain cinema based on its code.
+	 * @param code
+	 * @return cinema
+	 */
+	public Cinema getCinema(Cineplex cineplex, String code) {
+		for(int i = 0; i < cinemas.size(); i++) {
+			Cinema c = (Cinema)cinemas.get(i);
+			
+			if(c.getCode().equals(code) && c.getCineplex().getName().equals(cineplex.getName())) {
+				return c;
+			}
+		}
+		return null;
+	}
 	/**
 	 * Adds a Cinema to cinema.dat.
 	 * @param cinema The Cinema to be added.
@@ -83,7 +123,12 @@ public class CinemaDao implements Dao<Cinema>{
 			cinemas.remove(cinema);
 		}
 	};
-	
+	/**
+	 * Deletes all cinemas.
+	 */
+	public void deleteAll() {
+		cinemas.clear();
+	}
 	/**
 	 * Writes updated data to cinema.dat
 	 */

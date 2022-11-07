@@ -61,7 +61,7 @@ public class MoviegoerDao implements Dao<Moviegoer>{
 	public Moviegoer retrieveMoviegoer(String email, String mobile) {
 		for(int i = 0; i < moviegoers.size(); i++) {
 			Moviegoer m = (Moviegoer)moviegoers.get(i);
-			if(email == m.getEmail() || mobile == m.getMobile()) {
+			if(email.equals(m.getEmail()) || mobile.equals(m.getMobile())) {
 				return m;
 			}
 		}
@@ -76,7 +76,7 @@ public class MoviegoerDao implements Dao<Moviegoer>{
 	public boolean checkMoviegoerExists(String email, String mobile) {
 		for(int i = 0; i < moviegoers.size(); i++) {
 			Moviegoer m = (Moviegoer)moviegoers.get(i);
-			if(email == m.getEmail() || mobile == m.getMobile()) {
+			if(email.equals(m.getEmail()) || mobile.equals(m.getMobile())) {
 				return true;
 			}
 		}

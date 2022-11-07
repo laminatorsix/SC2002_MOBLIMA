@@ -40,6 +40,24 @@ public class HolidaysDao implements Dao<Holiday>{
 		return holidays;
 	}
     
+	/**
+	 * Retrieves Holiday from Database.
+	 * @param name
+	 * @return
+	 */
+	public Holiday getHoliday(String name) {
+		for(int i = 0; i < holidays.size(); i++) {
+			Holiday c = (Holiday)holidays.get(i);
+			if(c.getName().equals(name))
+				return c;
+		}
+		return null;
+	}
+	/**
+	 * Checks if a particular date is a holiday.
+	 * @param dt DateTime object.
+	 * @return Whether it is a holiday.
+	 */
 	public boolean checkHoliday(DateTime dt) {
 		for(int i = 0; i < holidays.size(); i++) {
 			Holiday c = (Holiday)holidays.get(i);

@@ -45,7 +45,7 @@ public class BookingsDao implements Dao<Booking> {
 		System.out.println("Email: " + moviegoer.getEmail());
 		for(int i = 0; i < bookings.size(); i++) {
 			Booking m = (Booking)bookings.get(i);
-			if(moviegoer.getEmail() == m.getTicket().getCustomer().getEmail() && moviegoer.getMobile() == m.getTicket().getCustomer().getMobile()) {
+			if(moviegoer.getEmail().equals(m.getTicket().getCustomer().getEmail()) && moviegoer.getMobile().equals(m.getTicket().getCustomer().getMobile())) {
 				b.printBooking(m.getTID(), m.getBookingPrice().getTotalPrice(), m.getTicket().getSeat().getListing().getMovie().getName(), m.getTicket().getSeat().getListing().getDateTime(), m.getDateTime());
 			}
 		}

@@ -45,7 +45,7 @@ public class CineplexDao implements Dao<Cineplex>{
 	public Cineplex getCineplex(String name){
 		for(int i = 0; i < cineplexes.size(); i++) {
 			Cineplex c = (Cineplex)cineplexes.get(i);
-			if(name.toLowerCase() == c.getName().toLowerCase()) {
+			if(name.toLowerCase().equals(c.getName().toLowerCase())) {
 				return c;
 			}
 		}
@@ -63,6 +63,9 @@ public class CineplexDao implements Dao<Cineplex>{
 		}
 	}
 	
+	public int returnCount() {
+		return cineplexes.size();
+	}
 	/**
 	 * Adds a Cineplex to cineplex.dat.
 	 * @param cineplex The Cineplex to be added.

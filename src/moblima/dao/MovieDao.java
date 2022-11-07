@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
+import moblima.model.MovieRating;
 /**
  * DAO Interface for Movie
  * Reads and writes to movie.dat
@@ -17,10 +17,12 @@ import java.util.Comparator;
 public class MovieDao implements Dao<Movie>{
 	@SuppressWarnings("unchecked")
 	List<Movie> movies;
-	ListingsDao l = new ListingsDao();
+	ListingsDao l;
 	
 	public MovieDao() {
-		movies = (ArrayList)SerializeDB.readSerializedObject("data/movie.dat");
+		System.out.println("Constructing...");
+		l = new ListingsDao();
+		movies = (ArrayList<Movie>)SerializeDB.readSerializedObject("data/movie.dat");
 		if(movies == null) {
 			List<Movie> a = new ArrayList<>();
 			movies = a;
@@ -52,12 +54,13 @@ public class MovieDao implements Dao<Movie>{
 	public Movie getMovie(String name){
 		for(int i = 0; i < movies.size(); i++) {
 			Movie m = (Movie)movies.get(i);
-			if(name.toLowerCase() == m.getName().toLowerCase()) {
+			if(name.toLowerCase().equals(m.getName().toLowerCase())) {
 				return m;
 			}
 		}
 		return null;
 	}
+	
 	/**
 	 * Prints all movies from movie.dat
 	 */
@@ -70,9 +73,12 @@ public class MovieDao implements Dao<Movie>{
 			System.out.print("Cast: ");
 			
 			Array.printArray(m.getCast());
+			System.out.println("Rating: " + m.getMovieRating());
 		}
 	}
-	
+	/**
+	 * Prints top 5 movies.
+	 */
 	public void printTopFive() {
 		for(int i = 0; i < 5; i++) {
 			Movie m = (Movie)movies.get(i);
@@ -115,7 +121,7 @@ public class MovieDao implements Dao<Movie>{
 	 * @param i
 	 * @param n
 	 */
-	public void updateNameDesc(Movie movie, int i, String n) {
+	public void updateNameDescDir(Movie movie, int i, String n) {
 		Movie m = (Movie)(movies.get(movies.indexOf(movie)));
 		switch(i) {
 			case 0:
@@ -124,8 +130,13 @@ public class MovieDao implements Dao<Movie>{
 			case 1:
 				m.setDesc(n);
 				break;
+			case 2:
+				m.setDirector(n);
+				break;
 		}
 	}
+	
+	
 	/**
 	 * Update this Movie's cast
 	 * @param movie This Movie
@@ -147,6 +158,11 @@ public class MovieDao implements Dao<Movie>{
 		if(movieStatus == "ENDOFSHOWING") //remove if end of showing
 			movies.remove(m);
 		
+	}
+	
+	public void updateMovieRating(Movie movie, String r) {
+		Movie m = (Movie)(movies.get(movies.indexOf(movie)));
+		movie.setRating(r);
 	}
 	/**
 	 * Updates this Movie's overall rating and total reviews
@@ -170,7 +186,7 @@ public class MovieDao implements Dao<Movie>{
 		}
 		
 		overallRating = totalRating / totalReviews;
-		m.setOverallRating(overallRating);
+		m.setOverallRating(totalRating);
 		m.setTotalReviews(totalReviews);
 		
 		

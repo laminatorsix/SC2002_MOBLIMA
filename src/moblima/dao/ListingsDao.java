@@ -11,7 +11,7 @@ public class ListingsDao implements Dao<Listing>{
 	 */
 	@SuppressWarnings("unchecked")
 	public ListingsDao() {
-		listings = (ArrayList)SerializeDB.readSerializedObject("data/listings.dat");
+		listings = (ArrayList<Listing>)SerializeDB.readSerializedObject("data/listings.dat");
 		if(listings == null) {
 			List<Listing> a = new ArrayList<>();
 			listings = a;
@@ -42,7 +42,7 @@ public class ListingsDao implements Dao<Listing>{
 	public Listing getListing(String time, String date, String movie, String cineplex) {
 		for(int i = 0; i < listings.size(); i++) {
 			Listing l = (Listing)listings.get(i);
-			if(time == l.getTime() && date == l.getDate() && movie == l.getMovie().getName() && cineplex == l.getCinema().getCineplex().getName())
+			if(time.equals(l.getTime()) && date.equals(l.getDate()) && movie.equals(l.getMovie().getName()) && cineplex.equals(l.getCinema().getCineplex().getName()))
 				return l;
 		}
 		return null;
@@ -126,7 +126,8 @@ public class ListingsDao implements Dao<Listing>{
 		if(listings != null && listings.contains(listing)) {
 			listings.remove(listing);
 		}
-		sortListings();
+		if(listings!= null)
+			sortListings();
 	};
 	
 	/**
@@ -134,9 +135,10 @@ public class ListingsDao implements Dao<Listing>{
 	 * @param name Name of Movie.
 	 */
 	public void deleteMovie(String name) {
+		
 		for(int i = 0; i < listings.size(); i++) {
 			Listing l = listings.get(i);
-			if(l.getMovie().getName() == name) {
+			if(l.getMovie().getName().equals(name)) {
 				delete(l);
 			}
 		}
@@ -147,5 +149,7 @@ public class ListingsDao implements Dao<Listing>{
 	public void end() {
 		SerializeDB.writeSerializedObject("data/listings.dat", listings);
 	}
+
+	
 	
 }

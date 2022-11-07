@@ -1,7 +1,9 @@
 package moblima.dao;
 import java.io.IOException;
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
@@ -15,11 +17,18 @@ public class SerializeDB
 		List pDetails = null;
 		FileInputStream fis = null;
 		ObjectInputStream in = null;
+		
 		try {
+			BufferedReader br = new BufferedReader(new FileReader(filename));     
+	       
 			fis = new FileInputStream(filename);
-			in = new ObjectInputStream(fis);
-			pDetails = (ArrayList) in.readObject();
-			in.close();
+			
+			if(br.readLine() != null) {
+				in = new ObjectInputStream(fis);
+				pDetails = (ArrayList) in.readObject();
+				in.close();
+			}
+			
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		} catch (ClassNotFoundException ex) {
