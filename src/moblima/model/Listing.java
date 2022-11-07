@@ -1,9 +1,15 @@
 package moblima.model;
 
+import java.io.Serializable;
+
 /**
  * Represents a listing for a particular movie screening at a cinema.
  */
-public class Listing {
+public class Listing implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 979703548517181176L;
 	static int ROWS = 10;
 	static int COLS = 8;
 	Movie movie;
@@ -12,6 +18,10 @@ public class Listing {
 	boolean is3D;
 	DateTime time;
 	
+	/**
+	 * Default constructor for Listing.
+	 */
+	public Listing() {}
 	/**
 	 * Constructor for Listing.
 	 * @param year

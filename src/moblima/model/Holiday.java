@@ -1,9 +1,12 @@
 package moblima.model;
 
+import java.io.Serializable;
+
 /**
  * Represents a holiday.
  */
-public class Holiday {
+public class Holiday implements Serializable{
+	private static final long serialVersionUID = -3680580361932733139L;
 	private DateTime dateTime;
 	private String name;
 	

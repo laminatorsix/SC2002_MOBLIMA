@@ -1,12 +1,28 @@
 package moblima.model;
 
-public class MovieReview {
+import java.io.Serializable;
+
+/**
+ * Represents a Movie Review.
+ */
+public class MovieReview implements Serializable{
+	private static final long serialVersionUID = -333975565085120365L;
 	private Movie movie;
 	private DateTime dt;
 	private String time;
 	private String content;
 	private Rating rating;
 
+	/**
+	 * Default constructor for MovieReview.
+	 */
+	public MovieReview() {}
+	/**
+	 * Constructor for MovieReview.
+	 * @param movie
+	 * @param content
+	 * @param rating
+	 */
 	public MovieReview(Movie movie, String content, Rating rating) {
 		this.movie = movie;
 		this.content = content;
@@ -14,15 +30,26 @@ public class MovieReview {
 		this.time = dt.getDate();
 	}
 	
-	//GETTERS because don't let them update
+	/**
+	 * Gets the movie this review is for.
+	 * @return movie.
+	 */
 	public Movie getMovie() {
 		return movie;
 	}
 	
+	/**
+	 * Gets the content of this review.
+	 * @return content.
+	 */
 	public String getContent() {
 		return content;
 	}
 	
+	/**
+	 * Gets the rating left by this reviewer.
+	 * @return rating.
+	 */
 	public int getRating() {
 		switch(rating) {
 			case ONE:
@@ -40,6 +67,10 @@ public class MovieReview {
 		}
 	}
 	
+	/**
+	 * Gets the time this review was published.
+	 * @return time of publication.
+	 */
 	public String getTime() {
 		return time;
 	}

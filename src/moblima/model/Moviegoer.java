@@ -1,9 +1,12 @@
 package moblima.model;
 
+import java.io.Serializable;
+
 /** 
  * Represents a Moviegoer.
  */
-public class Moviegoer {
+public class Moviegoer implements Serializable{
+	private static final long serialVersionUID = -7774634211972681136L;
 	private String name;
 	private String mobile;
 	private String email;

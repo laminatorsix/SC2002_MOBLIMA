@@ -1,12 +1,13 @@
 package moblima.model;
 
+import java.io.Serializable;
+
 /**
  * Represents a cineplex.
  * One cineplex contains several cinemas.
  */
-public class Cineplex {
-	private static String lastCode = "0";
-	private int cinemaCount;
+public class Cineplex implements Serializable{
+	private static final long serialVersionUID = 7106053299717003889L;
 	private String name;
 	private String code;
 	
@@ -15,11 +16,9 @@ public class Cineplex {
 	 * @param name This Cineplex's name.
 	 * @param code This Cineplex's ID code.
 	 */
-	public Cineplex(String name, String code) {
+	public Cineplex(String name, int count) {
 		this.name = name;
-		this.code = code;
-		lastCode = code;
-		cinemaCount = 0;
+		this.code = generateCode(count);
 	}
 	
 	//GETTERS
@@ -34,11 +33,6 @@ public class Cineplex {
 	 */
 	public String getCode() {return code;}
 	
-	/**
-	 * Gets the cinema count of this Cineplex.
-	 * @return this Cineplex's cinema count.
-	 */
-	public int getCinemaCount() {return cinemaCount;}
 	
 	//SETTERS
 	/**
@@ -52,14 +46,13 @@ public class Cineplex {
 	 */
 	public void setCode(String code) {this.code = code;}
 	
-	public void incrementCinemaCount() {this.cinemaCount += 1;}
 	
 	/**
 	 * Generates ID code of this Cineplex.
 	 * @return This Cineplex's generated ID code.
 	 */
-	public String generateCode() {
-		int curr = Integer.parseInt(lastCode) + 1;
+	public String generateCode(int count) {
+		int curr = count + 1;
 		return Integer.toString(curr);
 	}
 }

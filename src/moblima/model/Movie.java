@@ -2,10 +2,15 @@ package moblima.model;
 import java.io.Serializable;
 import java.util.*;
 
+
 /**
  * Represents a movie
  */
 public class Movie implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1985877739336240749L;
 	private String name;
 	private MovieStatus status;
 	private String desc;
@@ -16,6 +21,20 @@ public class Movie implements Serializable {
 	private double totalReviews;
 	private MovieRating movieRating;
 	
+	/**
+	 * Default constructor for Movie.
+	 */
+	public Movie() {}
+	
+	/**
+	 * Constructor for Movie.
+	 * @param n Movie name.
+	 * @param s Movie status.
+	 * @param d Movie description.
+	 * @param di Movie director.
+	 * @param c Movie cast.
+	 * @param r Movie rating.
+	 */
 	public Movie(String n, MovieStatus s, String d, String di, String[] c, MovieRating r) {
 		name = n;
 		status = s;

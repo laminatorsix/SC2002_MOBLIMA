@@ -1,9 +1,12 @@
 package moblima.model;
 
+import java.io.Serializable;
+
 /**
  * Represents a cinema in a particular cineplex.
  */
-public class Cinema {
+public class Cinema implements Serializable{
+	private static final long serialVersionUID = -2257382588272118502L;
 	Cineplex cineplex;
 	boolean isPlatinum;
 	String code;
@@ -14,10 +17,10 @@ public class Cinema {
 	 * @param isPlatinum Whether this Cinema is Platinum.
 	 * @param code This Cinema's code.
 	 */
-	public Cinema(Cineplex cineplex, boolean isPlatinum, String code) {
+	public Cinema(Cineplex cineplex, boolean isPlatinum, int cinemaCount) {
 		this.cineplex = cineplex;
 		this.isPlatinum = isPlatinum;
-		this.code = generateCode(); 
+		this.code = generateCode(cinemaCount); 
 	}
 	
 	//GETTERS
@@ -57,8 +60,8 @@ public class Cinema {
 	 * Generates this Cinema's ID code.
 	 * @return this Cinema's ID code.
 	 */
-	public String generateCode() {
-		int curr = this.cineplex.getCinemaCount();
+	public String generateCode(int cinemaCount) {
+		int curr = cinemaCount;
 		String res = this.cineplex.getCode() + "0" + Integer.toString(curr);
 		return res;
 		

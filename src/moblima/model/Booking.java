@@ -1,4 +1,5 @@
 package moblima.model;
+import java.io.Serializable;
 import java.util.*;
 
 
@@ -6,7 +7,11 @@ import java.util.*;
  * Represents a booking made for a ticket.
  * Linked to a Ticket booked by a particular Moviegoer.
  */
-public class Booking {
+public class Booking implements Serializable{
+	/**
+	 * Serial version UID
+	 */
+	private static final long serialVersionUID = 8386971035862977044L;
 	private static String discountCode = "ILOVEMOVIES123";
 	private Ticket ticket;
 	private BookingPrice bookingPrice;
