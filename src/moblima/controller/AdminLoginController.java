@@ -8,10 +8,9 @@ public class AdminLoginController {
 	private AdminLogin model;
 	/**
 	 * Constructor for AdminLoginController.
-	 * @param model 
 	 */
-	public AdminLoginController(AdminLogin model) {
-		this.model = model;
+	public AdminLoginController() {
+		this.model = new AdminLogin();
 	}
 	
 	/**

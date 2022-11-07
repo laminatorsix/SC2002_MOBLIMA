@@ -44,16 +44,17 @@ public class MovieController {
 	 * Create a new Movie.
 	 * @param n Movie name.
 	 * @param s Movie status.
-	 * @param d Movie date.
+	 * @param d Movie description.
 	 * @param di Movie director.
 	 * @param c Movie cast.
 	 * @param r Movie rating.
 	 */
 	public void setNewMovie(String n, MovieStatus s, String d, String di, String[] c, MovieRating r) {
 		this.model = new Movie(n, s, d, di, c, r);
-		dao = new MovieDao();
 		dao.add(model);
 	}
+	
+	
 	
 	/**
 	 * Retrieves an existing Movie from database.
@@ -72,13 +73,16 @@ public class MovieController {
 		return dao.getMovie(name);
 	}
 	
+	public Movie getMovie() {
+		return model;
+	}
 	//SETTERS
 	/**
 	 * Updates name of Movie.
 	 * @param name
 	 */
 	public void setMovieName(String name) {
-		model.setName(name);
+		dao.updateNameDescDir(model, 0, name);
 	}
 	
 	/**
@@ -86,7 +90,7 @@ public class MovieController {
 	 * @param status
 	 */
 	public void setMovieStatus(String status) {
-		model.setStatus(status);
+		dao.updateStatus(model, status);
 	}
 	
 	/**
@@ -94,7 +98,7 @@ public class MovieController {
 	 * @param desc
 	 */
 	public void setMovieDesc(String desc) {
-		model.setDesc(desc);
+		dao.updateNameDescDir(model, 1, desc);
 	}
 	
 	/**
@@ -102,7 +106,7 @@ public class MovieController {
 	 * @param cast
 	 */
 	public void setMovieCast(String[] cast) {
-		model.setCast(cast);
+		dao.updateCast(model, cast);
 	}
 	
 	/**
@@ -110,7 +114,7 @@ public class MovieController {
 	 * @param director
 	 */
 	public void setMovieDirector(String director) {
-		model.setDirector(director);
+		dao.updateNameDescDir(model, 2, director);
 	}
 	
 	/**
@@ -118,7 +122,7 @@ public class MovieController {
 	 * @param rating
 	 */
 	public void setMovieRating(String rating) {
-		model.setRating(rating);
+		dao.updateMovieRating(model, rating);
 	}
 	
 	//GETTERS
@@ -152,6 +156,19 @@ public class MovieController {
 		dao.printTopFive();
 	}
 	
+	/**
+	 * Adds movie to database.
+	 */
+	public void addMovieToDatabase(Movie movie) {
+		dao.add(movie);
+	}
+	
+	/**
+	 * Removes movie from database.
+	 */
+	public void deleteMovieFromDatabase(Movie movie) {
+		dao.delete(movie);
+	}
 	/**
 	 * Prints a Movie.
 	 * @param movie

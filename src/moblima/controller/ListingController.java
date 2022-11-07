@@ -18,6 +18,13 @@ public class ListingController {
 	private ListingView view;
 	
 	/**
+	 * Default constructor for ListingController.
+	 */
+	public ListingController() {
+		dao = new ListingsDao();
+		view = new ListingView();
+	}
+	/**
 	 * Constructor for ListingController.
 	 * Retrieves Listing from database.
 	 * @param time
@@ -107,7 +114,6 @@ public class ListingController {
 	 */
 	public void setNewListing(int year, int day, int month, int hours, int minutes, Movie movie, Cinema cinema, boolean is3D) {
 		model = new Listing(year, day, month, hours, minutes, movie, cinema, is3D);
-		dao.add(model);
 	}
 	/**
 	 * Checks if seat is available.
