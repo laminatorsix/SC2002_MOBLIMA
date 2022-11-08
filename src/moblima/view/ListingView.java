@@ -23,13 +23,34 @@ public class ListingView {
 		
 		
 	}
-	
+	/**
+	 * Prints basic information about a Listing.
+	 * @param cinema
+	 * @param time
+	 * @param is3D
+	 * @param isPlatinum
+	 */
+	public void printListingBasic(String cinema, String time, boolean is3D, boolean isPlatinum) {
+		
+		System.out.println(time);
+		if(is3D)
+			System.out.println("(3D)");
+		if(isPlatinum)
+			System.out.println("(Platinum)");
+		
+	}
+	/**
+	 * Prints all seats for a current listing.
+	 * @param seats
+	 * @param row
+	 * @param col
+	 */
 	public void printListingSeats(Seat[][] seats, int row, int col) {
 		System.out.println("            SCREEN");
-		System.out.println(" 1 2 3 4 5 6 7 8 9 10");
+		System.out.println("   1 2 3 4 5 6 7 8 9 10");
 		System.out.println("  ___________   ___________");
 		for(int i = 0; i < row; i++) {
-			System.out.print(i + " |");
+			System.out.print((i+1) + " |");
 			for(int j = 0; j < col; j++) {
 				if(seats[i][j].getBooked()) {
 					System.out.print("X|");
