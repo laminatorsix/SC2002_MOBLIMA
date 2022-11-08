@@ -47,7 +47,7 @@ public class MovieReviewDao implements Dao<MovieReview>{
 	public void printAll(Movie movie){
 		for(int i = 0; i < movieReviews.size(); i++) {
 			MovieReview m = (MovieReview)movieReviews.get(i);
-			if(m.getMovie() == movie) {
+			if(m.getMovie().getName() == movie.getName()) {
 				v.printMovieReview(m.getMovie().getName(), m.getRating(), m.getContent(), m.getTime());
 			}
 			

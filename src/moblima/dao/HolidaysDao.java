@@ -1,5 +1,6 @@
 package moblima.dao;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -8,7 +9,11 @@ import java.util.Optional;
 import moblima.model.Holiday;
 import moblima.model.DateTime;
 
-public class HolidaysDao implements Dao<Holiday>{
+public class HolidaysDao implements Dao<Holiday>, Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8445600784490139362L;
 	List<Holiday> holidays;
 	/**
 	 * Constructor for HolidaysDAO.
@@ -61,21 +66,25 @@ public class HolidaysDao implements Dao<Holiday>{
 	public boolean checkHoliday(DateTime dt) {
 		for(int i = 0; i < holidays.size(); i++) {
 			Holiday c = (Holiday)holidays.get(i);
-			if(dt.getDate() == c.getDate())
+			if(dt.getDate().equals(c.getDate())) 
 				return true;
 		}
 		return false;
 	}
 	/**
 	 * Prints all Holidays.
+	 * @return success
 	 */
-	public void printAll() {
+	public boolean printAll() {
+		if(holidays.size() == 0)
+			return false;
 		for(int i = 0; i < holidays.size(); i++) {
 			Holiday c = (Holiday)holidays.get(i);
 			System.out.println("Name: " + c.getName());
 			System.out.println("Date: " + c.getDate());
 			System.out.println();
 		}
+		return true;
 	}
 	
 	/**

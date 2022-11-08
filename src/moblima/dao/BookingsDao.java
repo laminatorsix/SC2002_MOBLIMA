@@ -9,6 +9,8 @@ public class BookingsDao implements Dao<Booking> {
 	List<Booking> bookings;
 	BookingView b = new BookingView();
 	
+	
+
 	public BookingsDao() {
 		bookings = (ArrayList)SerializeDB.readSerializedObject("data/bookings.dat");
 		if(bookings == null) {

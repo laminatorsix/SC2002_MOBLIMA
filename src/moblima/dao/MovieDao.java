@@ -6,6 +6,7 @@ import moblima.model.MovieStatus;
 
 import java.util.List;
 import java.util.Optional;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -14,13 +15,16 @@ import moblima.model.MovieRating;
  * DAO Interface for Movie
  * Reads and writes to movie.dat
  */
-public class MovieDao implements Dao<Movie>{
+public class MovieDao implements Dao<Movie>, Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1354341169941313208L;
 	@SuppressWarnings("unchecked")
 	List<Movie> movies;
 	ListingsDao l;
 	
 	public MovieDao() {
-		System.out.println("Constructing...");
 		l = new ListingsDao();
 		movies = (ArrayList<Movie>)SerializeDB.readSerializedObject("data/movie.dat");
 		if(movies == null) {
@@ -74,20 +78,36 @@ public class MovieDao implements Dao<Movie>{
 			
 			Array.printArray(m.getCast());
 			System.out.println("Rating: " + m.getMovieRating());
+			
+			System.out.println(m.getOverallRating() + "/5");
+			System.out.println();
+		}
+	}
+	/**
+	 * Print all movie names only
+	 */
+	public void printAllNames() {
+		for(int i = 0; i < movies.size(); i++) {
+			Movie m = (Movie)movies.get(i);
+			System.out.println(m.getName());
 		}
 	}
 	/**
 	 * Prints top 5 movies.
 	 */
 	public void printTopFive() {
-		for(int i = 0; i < 5; i++) {
+		for(int i = 0; i < movies.size(); i++) {
+			if(i == 5)
+				break;
 			Movie m = (Movie)movies.get(i);
 			System.out.println("Name: " + m.getName());
 			System.out.println("Description: " + m.getDesc());
 			System.out.println("Status: " + m.getStatus());
-			System.out.print("Cast: ");
-			
+			System.out.println("Cast: ");
 			Array.printArray(m.getCast());
+			System.out.println();
+			System.out.println(m.getOverallRating() + "/5");
+			System.out.println();
 		}
 	}
 	/**
@@ -159,7 +179,11 @@ public class MovieDao implements Dao<Movie>{
 			movies.remove(m);
 		
 	}
-	
+	/**
+	 * Updates movie rating.
+	 * @param movie
+	 * @param r Rating.
+	 */
 	public void updateMovieRating(Movie movie, String r) {
 		Movie m = (Movie)(movies.get(movies.indexOf(movie)));
 		movie.setRating(r);

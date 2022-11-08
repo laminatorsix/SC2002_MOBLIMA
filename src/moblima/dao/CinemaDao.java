@@ -63,7 +63,7 @@ public class CinemaDao implements Dao<Cinema>{
 	public void printAllAtCineplex(Cineplex cineplex) {
 		for(int i = 0; i < cinemas.size(); i++) {
 			Cinema c = (Cinema)cinemas.get(i);
-			if(c.getCineplex() == cineplex) {
+			if(c.getCineplex().getName().equals(cineplex.getName())) {
 				System.out.println("Cinema: " + "Hall " + c.getCode().substring(c.getCode().length()-1));
 			}
 			

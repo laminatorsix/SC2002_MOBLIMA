@@ -51,6 +51,8 @@ public class CineplexDao implements Dao<Cineplex>{
 		}
 		return null;
 	}
+	
+	
 	/**
 	 * Prints all Cineplexes.
 	 */
@@ -62,8 +64,20 @@ public class CineplexDao implements Dao<Cineplex>{
 			System.out.println();
 		}
 	}
-	
-	public int returnCount() {
+	/**
+	 * Prints all Cineplex names.
+	 */
+	public void printAllNames() {
+		for(int i = 0; i < cineplexes.size(); i++) {
+			Cineplex c = (Cineplex)cineplexes.get(i);
+			System.out.println(c.getName());
+		}
+	}
+	/**
+	 * Gets number of cineplexes.
+	 * @return number of cineplexes.
+	 */
+	public int getCineplexCount() {
 		return cineplexes.size();
 	}
 	/**
