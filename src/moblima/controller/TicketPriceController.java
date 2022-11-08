@@ -9,7 +9,7 @@ public class TicketPriceController {
 	 * Mainly to get and set Ticket discounts and surcharges.
 	 */
 	public TicketPriceController() {
-		model = new TicketPrice(null);
+		
 	}
 	
 	
@@ -20,7 +20,13 @@ public class TicketPriceController {
 	public double getTicketBasePrice() {
 		return model.getBasePrice();
 	}
-	
+	/**
+	 * Gets current holiday surcharge.
+	 * @return holiday surcharge.
+	 */
+	public double getTicketHol() {
+		return model.getSurchargeHol();
+	}
 	/**
 	 * Gets current 3D surcharge.
 	 * @return 3D surcharge.
@@ -59,6 +65,13 @@ public class TicketPriceController {
 	 */
 	public void setTicketBasePrice(double basePrice) {
 		model.setBasePrice(basePrice);
+	}
+	/**
+	 * Updates current Holiday surcharge.
+	 * @param surchargeHol
+	 */
+	public void setTicketHol(double surchargeHol) {
+		model.setSurchargeHol(surchargeHol);
 	}
 	/**
 	 * Updates current 3D surcharge.

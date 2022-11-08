@@ -8,7 +8,12 @@ import moblima.dao.MoviegoerDao;
 public class MoviegoerController {
 	private Moviegoer model;
 	private MoviegoerDao dao;
-	
+	/**
+	 * Default constructor for MoviegoerController.
+	 */
+	public MoviegoerController() {
+		this.dao = new MoviegoerDao();
+	}
 	/**
 	 * Constructor for MoviegoerController.
 	 * Creates a new Moviegoer.
@@ -84,5 +89,23 @@ public class MoviegoerController {
 	 */
 	public boolean checkMoviegoer(String email, String mobile) {
 		return dao.checkMoviegoerExists(email, mobile);
+	}
+	
+	/**
+	 * Returns current Moviegoer.
+	 * @return moviegoer.
+	 */
+	public Moviegoer getCurrentMoviegoer() {
+		return model;
+	}
+	
+	public void addMoviegoerToDatabase() {
+		dao.add(model);
+	}
+	/**
+	 * Updates database.
+	 */
+	public void close() {
+		dao.end();
 	}
 }

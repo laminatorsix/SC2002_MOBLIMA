@@ -27,11 +27,16 @@ public class MovieReviewController {
 	 * @param content
 	 * @param rating
 	 */
-	public void setMovieReview(Movie movie, String content, Rating rating) {
+	public void setMovieReview(Movie movie, String content, int rating) {
 		model = new MovieReview(movie, content, rating);
 		dao.add(model);
 	}
-	
+	/**
+	 * Adds movie review to database.
+	 */
+	public void addReviewToDatabase() {
+		dao.add(model);
+	}
 	/**
 	 * Print all reviews for a certain movie.
 	 * @param movie

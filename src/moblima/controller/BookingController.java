@@ -41,9 +41,8 @@ public class BookingController {
 	 * @param hasMeal If there is a meal.
 	 * @param discount If there is a discount.
 	 */
-	public void setBooking(Seat seat, Moviegoer customer, boolean hasMeal, boolean discount) {
-		model = new Booking(seat, customer, hasMeal, discount);
-		dao.add(model);
+	public void setBooking(Seat seat, Moviegoer customer, boolean hasMeal, boolean hasDiscount) {
+		model = new Booking(seat, customer, hasMeal, hasDiscount);
 	}
 	
 	
@@ -91,7 +90,7 @@ public class BookingController {
 	 */
 	public void addBookingToDatabase() {
 		dao.add(model);
-		dao.end();
+		
 	}
 	
 	/**
@@ -107,7 +106,11 @@ public class BookingController {
 	public void printBooking() {
 		view.printBooking(model.getTID(), model.getBookingPrice().getTotalPrice(), model.getTicket().getSeat().getListing().getMovie().getName(), model.getTicket().getSeat().getListing().getDateTime(), model.getDateTime());
 	}
-	
-	
+	/**
+	 * Updates data.
+	 */
+	public void close() {
+		dao.end();
+	}
 	
 }

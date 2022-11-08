@@ -19,7 +19,7 @@ public class AdminLoginController {
 	 * @return Whether password is correct or not.
 	 */
 	public boolean verifyLogin(String password) {
-		if(password != model.getPass()) {
+		if(!password.equals(model.getPass())) {
 			return false;
 		}
 		return true;

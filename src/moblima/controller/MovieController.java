@@ -9,7 +9,7 @@ import moblima.dao.MovieDao;
 public class MovieController {
 	private Movie model;
 	private MovieDao dao;
-	
+	private int filter = 0;
 	/**
 	 * Default constructor for MovieController.
 	 */
@@ -59,21 +59,28 @@ public class MovieController {
 	/**
 	 * Retrieves an existing Movie from database.
 	 * @param name Name of Movie.
+	 * @return true if movie exists.
 	 */
-	public void getNewMovie(String name) {
+	public boolean getNewMovie(String name) {
+		Movie movie = dao.getMovie(name);
+		if(movie == null)
+			return false;
 		this.model = dao.getMovie(name);
+		return true;
 	}
-	
 	/**
-	 * Returns an existing Movie from database.
-	 * @param name Name of Movie.
-	 * @return
+	 * Returns a movie from database.
+	 * @param name
+	 * @return movie.
 	 */
-	public Movie retrieveMovieFromDatabase(String name) {
+	public Movie getMovie(String name) {
 		return dao.getMovie(name);
 	}
-	
-	public Movie getMovie() {
+	/**
+	 * Returns current movie.
+	 * @return model.
+	 */
+	public Movie getCurrentMovie() {
 		return model;
 	}
 	//SETTERS
@@ -148,7 +155,40 @@ public class MovieController {
 	public void printAllMovies() {
 		dao.printAll();
 	}
+	/**
+	 * Prints the names of all movies.
+	 */
+	public void printAllMovieNames() {
+		dao.printAllNames();
+	}
 	
+	/**
+	 * Sorts movies by overall rating.
+	 */
+	public void sortByOverallRating() {
+		dao.sortMoviesByOverallRating();
+	}
+	/**
+	 * Sorts movies by total sales.
+	 */
+	public void sortByTotalSales() {
+		dao.sortMoviesByTotalSales();
+	}
+	/**
+	 * Sets Filter option.
+	 * 1 for OverallRating, 2 for TotalSales, 3 for Both.
+	 * @param filter
+	 */
+	public void setFilter(int filter) {
+		this.filter = filter;
+	}
+	/**
+	 * Returns Filter option.
+	 * @return filter.
+	 */
+	public int getFilter() {
+		return filter;
+	}
 	/**
 	 * Prints top five movies.
 	 */
@@ -159,28 +199,30 @@ public class MovieController {
 	/**
 	 * Adds movie to database.
 	 */
-	public void addMovieToDatabase(Movie movie) {
-		dao.add(movie);
+	public void addMovieToDatabase() {
+		dao.add(model);
+		
 	}
 	
 	/**
 	 * Removes movie from database.
 	 */
-	public void deleteMovieFromDatabase(Movie movie) {
-		dao.delete(movie);
+	public void deleteMovieFromDatabase() {
+		dao.delete(model);
 	}
 	/**
 	 * Prints a Movie.
 	 * @param movie
 	 */
-	public void printMovie(Movie movie) {
-		System.out.println("Name: " + movie.getName());
-		System.out.println("Description: " + movie.getDesc());
-		System.out.println("Status: " + movie.getStatus());
+	public void printMovie() {
+		System.out.println("Name: " + model.getName());
+		System.out.println("Description: " + model.getDesc());
+		System.out.println("Status: " + model.getStatus());
 		System.out.print("Cast: ");
 		
-		Array.printArray(movie.getCast());
+		Array.printArray(model.getCast());
 	}
+	
 	
 	/**
 	 * Sorts Movies by overall rating.
@@ -202,6 +244,9 @@ public class MovieController {
 	public void close() {
 		dao.end();
 	}
+
+
+	
 
 	
 }
