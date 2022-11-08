@@ -11,6 +11,28 @@ public class Cineplex implements Serializable{
 	private String name;
 	private String code;
 	
+	@Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + name.hashCode();
+        result = 31 * result + code.hashCode();
+        return result;
+    }
+
+	@Override
+    public boolean equals(Object o) {
+
+        if (o == this) return true;
+        if (!(o instanceof Cineplex)) {
+            return false;
+        }
+
+        Cineplex cineplex = (Cineplex) o;
+
+        return cineplex.code.equals(code) &&
+                cineplex.name.equals(name);
+    }
+	
 	/**
 	 * Constructor for Cineplex.
 	 * @param name This Cineplex's name.

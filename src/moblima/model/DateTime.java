@@ -1,4 +1,5 @@
 package moblima.model;
+import java.io.Serializable;
 import java.time.*;  
 import java.time.format.DateTimeFormatter;
 import moblima.dao.HolidaysDao;
@@ -7,7 +8,12 @@ import moblima.dao.HolidaysDao;
  * Retrieves date and time.
  *
  */
-public class DateTime {
+public class DateTime implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4989624435897943505L;
 	private static DateTimeFormatter datef = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 	private static DateTimeFormatter timef = DateTimeFormatter.ofPattern("HH:mm:ss");
 	
@@ -25,6 +31,7 @@ public class DateTime {
 	 * Retrieves current date and time.
 	 */
 	public DateTime() {
+		h = new HolidaysDao();
 		date = LocalDate.now();
 		time = LocalTime.now();
 		
@@ -33,6 +40,7 @@ public class DateTime {
 		dayOfWeek = date.getDayOfWeek().getValue();
 		dtString = dString + " " + tString;
 		isHoliday = h.checkHoliday(this);
+		
 	}
 	
 	/**
@@ -45,14 +53,16 @@ public class DateTime {
 	 * @param minutes
 	 */
 	public DateTime(int year, int day, int month, int hours, int minutes) {
+		h = new HolidaysDao();
 		date = LocalDate.of(year, month, day);
-		time = LocalTime.of(hours, minutes);
+		time = LocalTime.of(hours, minutes, 0);
 		
 		dString = date.format(datef);
 		tString = time.format(timef);
 		dayOfWeek = date.getDayOfWeek().getValue();
 		dtString = dString + " " + tString;
 		isHoliday = h.checkHoliday(this);
+		
 	}
 	/**
 	 * Constructor for DateTime.

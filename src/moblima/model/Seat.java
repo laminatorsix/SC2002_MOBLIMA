@@ -1,15 +1,33 @@
 package moblima.model;
 
+import java.io.Serializable;
+
 /**
  * Represents a seat in a particular cinema.
  * One cinema contains many seats.
  */
-public class Seat {
+public class Seat implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8941806988236290832L;
 	int row;
 	int col;
 	boolean booked;
 	Listing listing;
 	
+	/**
+	 * Constructor for seat.
+	 * @param row
+	 * @param col
+	 * @param listing
+	 */
+	public Seat(int row, int col, Listing listing) {
+		this.row = row;
+		this.col = col;
+		this.booked = false;
+		this.listing = listing;
+	}
 	/**
 	 * Constructor for Seat.
 	 * @param row This Seat's row.

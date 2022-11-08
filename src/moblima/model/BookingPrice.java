@@ -1,10 +1,16 @@
 package moblima.model;
 
+import java.io.Serializable;
+
 /**
  * Represents price of a particular Booking.
  *
  */
-public class BookingPrice {
+public class BookingPrice implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8446759852185378037L;
 	private static double mealPrice = 5;
 	private static double discount = 0.1;
 	private double totalPrice;

@@ -1,6 +1,8 @@
 package moblima.model;
 
-public enum MovieStatus {
+import java.io.Serializable;
+
+public enum MovieStatus implements Serializable{
 	COMINGSOON,
 	NOWSHOWING,
 	ENDOFSHOWING,

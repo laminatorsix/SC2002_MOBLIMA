@@ -1,9 +1,15 @@
 package moblima.model;
 
+import java.io.Serializable;
+
 /**
  * Represents a ticket booked by a moviegoer.
  */
-public class Ticket {
+public class Ticket implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1826243952929627981L;
 	Seat seat;
 	Moviegoer customer;
 	TicketPrice ticketPrice;

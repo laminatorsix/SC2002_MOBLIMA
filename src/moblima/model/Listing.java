@@ -10,13 +10,40 @@ public class Listing implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 979703548517181176L;
-	static int ROWS = 10;
-	static int COLS = 8;
+	static int ROWS = 8;
+	static int COLS = 10;
 	Movie movie;
 	Cinema cinema;
 	Seat[][] seats = new Seat[ROWS][COLS];
 	boolean is3D;
 	DateTime time;
+	
+	//String time, String date, String movie, String cineplex
+	@Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + time.getTime().hashCode();
+        result = 31 * result + time.getDate().hashCode();
+        //result = 31 * result + movie.hashCode();
+        result = 31 * result + cinema.hashCode();
+        return result;
+    }
+
+	@Override
+    public boolean equals(Object o) {
+
+        if (o == this) return true;
+        if (!(o instanceof Listing)) {
+            return false;
+        }
+
+        Listing listing = (Listing) o;
+
+        return listing.time.getTime().equals(time.getTime()) &&
+        		listing.time.getDate().equals(time.getDate()) &&
+        		//listing.movie.equals(movie) &&
+                listing.cinema.equals(cinema);
+    }
 	
 	/**
 	 * Default constructor for Listing.
@@ -38,6 +65,11 @@ public class Listing implements Serializable{
 		this.movie = movie;
 		this.cinema = cinema;
 		this.is3D = is3D;
+		for(int i = 0; i < ROWS; i++) {
+			for(int j = 0; j < COLS; j++) {
+				seats[i][j] = new Seat(i, j, this);
+			}
+		}
 	}
 	
 	//GETTERS
@@ -89,7 +121,21 @@ public class Listing implements Serializable{
 	 * @return
 	 */
 	public Seat getSeat(int row, int col) {return seats[row][col];}
-	
+	/**
+	 * Gets all seats.
+	 * @return seats.
+	 */
+	public Seat[][] getSeats() {return seats;}
+	/**
+	 * Gets total rows.
+	 * @return rows.
+	 */
+	public int getRow() {return ROWS;}
+	/**
+	 * Gets total columns.
+	 * @return columns.
+	 */
+	public int getCol() {return COLS;}
 	//SETTERS
 	/**
 	 * Updates the time for this Listing.

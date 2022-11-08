@@ -11,6 +11,29 @@ public class Cinema implements Serializable{
 	boolean isPlatinum;
 	String code;
 	
+	 
+	@Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + cineplex.hashCode();
+        result = 31 * result + code.hashCode();
+        return result;
+    }
+
+	@Override
+    public boolean equals(Object o) {
+
+        if (o == this) return true;
+        if (!(o instanceof Cinema)) {
+            return false;
+        }
+
+        Cinema cinema = (Cinema) o;
+
+        return cinema.code.equals(code) &&
+                cinema.cineplex.equals(cineplex);
+    }
+	    
 	/**
 	 * Constructor for Cinema.
 	 * @param cineplex The cineplex this Cinema is located in.

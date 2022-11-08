@@ -1,9 +1,12 @@
 package moblima.model;
 
+import java.io.Serializable;
+
 /**
  * Represents the price of a Ticket.
  */
-public class TicketPrice {
+public class TicketPrice implements Serializable{
+	private static final long serialVersionUID = 7101835306099183034L;
 	private static double basePrice = 12;
 	private static double surcharge3D = 2;
 	private static double surchargePlat = 3;
@@ -13,6 +16,10 @@ public class TicketPrice {
 	
 	private double totalPrice;
 	
+	/**
+	 * Default constructor for TicketPrice.
+	 */
+	public TicketPrice() {}
 	
 	/** 
 	 * Constructor for TicketPrice.

@@ -10,13 +10,35 @@ public class Holiday implements Serializable{
 	private DateTime dateTime;
 	private String name;
 	
+	@Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + dateTime.getDate().hashCode();
+        result = 31 * result + name.hashCode();
+        return result;
+    }
+
+	@Override
+    public boolean equals(Object o) {
+
+        if (o == this) return true;
+        if (!(o instanceof Holiday)) {
+            return false;
+        }
+
+        Holiday holiday = (Holiday) o;
+
+        return holiday.dateTime.getDate().equals(dateTime.getDate()) &&
+                holiday.name.equals(name);
+    }
+	
 	
 	/**
 	 * Constructor for Holiday.
 	 * @param dateTime
 	 */
-	public Holiday(DateTime dateTime, String name) {
-		this.dateTime = dateTime;
+	public Holiday(int year, int day, int month, String name) {
+		this.dateTime = new DateTime(year, day, month);
 		this.name = name;
 	}
 	

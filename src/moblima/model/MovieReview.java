@@ -23,10 +23,11 @@ public class MovieReview implements Serializable{
 	 * @param content
 	 * @param rating
 	 */
-	public MovieReview(Movie movie, String content, Rating rating) {
+	public MovieReview(Movie movie, String content, int rating) {
 		this.movie = movie;
 		this.content = content;
-		this.rating = rating;
+		this.rating = Rating.values()[rating-1];
+		this.dt = new DateTime();
 		this.time = dt.getDate();
 	}
 	

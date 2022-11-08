@@ -3,6 +3,8 @@ import java.io.Serializable;
 import java.util.*;
 
 
+
+
 /**
  * Represents a booking made for a ticket.
  * Linked to a Ticket booked by a particular Moviegoer.
@@ -20,6 +22,8 @@ public class Booking implements Serializable{
 	private boolean hasDiscount;
 	private DateTime dateTime;
 	private String dt;
+	
+	
 	
 	/**
 	 * Default constructor for Booking.

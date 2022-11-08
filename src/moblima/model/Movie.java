@@ -21,6 +21,27 @@ public class Movie implements Serializable {
 	private double totalReviews;
 	private MovieRating movieRating;
 	
+	@Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + name.hashCode();
+        
+        return result;
+    }
+
+	@Override
+    public boolean equals(Object o) {
+
+        if (o == this) return true;
+        if (!(o instanceof Movie)) {
+            return false;
+        }
+
+        Movie movie = (Movie) o;
+
+        return movie.name.equals(name);
+    }
+	
 	/**
 	 * Default constructor for Movie.
 	 */
@@ -194,13 +215,7 @@ public class Movie implements Serializable {
 		totalSales+=1;
 	}
 	
-	public boolean equals(Object o) {
-		if(o instanceof Movie) {
-			Movie m = (Movie)o;
-			return (getName().equals(m.getName()));
-		}
-		return false;
-	}
+	
 	
 
 	

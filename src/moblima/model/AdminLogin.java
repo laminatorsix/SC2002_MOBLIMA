@@ -12,7 +12,7 @@ public class AdminLogin {
 	 * @return Whether the password is correct or not.
 	 */
 	public boolean checkPass(String pass) {
-		if(pass == password) {
+		if(pass.equals(password)) {
 			return true;
 		}
 		return false;
