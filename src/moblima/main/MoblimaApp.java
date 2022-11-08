@@ -4,7 +4,7 @@ import moblima.controller.*;
 
 public class MoblimaApp {
 	private static Scanner s = new Scanner(System.in);
-	
+
 //	private static Dao<Movie> movieDao;
 //	
 //	public static void main(String[] args) {
@@ -19,49 +19,57 @@ public class MoblimaApp {
 //	}
 	
 	
-	
-	
-	
-
-	
-	
 	public static void main(String[] args) {
-		
+		boolean cont = true;
+		int res;
 		//AdminLogin = new AdminLogin()
-		boolean admin = false;
-		while(true) {
+		int admin = -1;
+		while(cont) {
 			System.out.println("Enter '0' for Admin, '1' for Customer, '2' to exit: ");
-			int res = s.nextInt();
+			res = Integer.parseInt(s.nextLine());
 			switch(res) {
-				case(0):
-					//invoke adminlogincontroller
-					Admin.showAdminMenu();
-					admin = true;
+				case 0:
+					if(!Admin.adminLogin()) {
+						break;
+					}
+						
+					admin = 1;
 					break;
-				case(1):
-					User.showUserMenu();
-					admin = false;
+				case 1:
+					admin = 0;
 					break;
-				case(2):
-					return;
 				default:
+					cont = false;
+					break;
 			}
 			
-			//admin functions
-			if(admin == true) {
-				while(true) {
+			if(admin == -1) {
+				continue;
+			}
+				
+			if(admin == 1) {
+				while(Admin.returnCont()) {
 					Admin.adminModule();
 				}
+				Admin.end();
 			}
 			//user functions
-			else if(admin == false) {
-				while(true) {
+			else if(admin == 0) {
+				while(User.returnCont()) {
 					User.userModule();
 				}
+				User.end();
+				
 			}
+			
+			admin = -1;
+			Admin.setCont();
+			User.setCont();
+			System.out.println("Exited.");
 		}
 		
-
+		
+		System.out.println("End of program.");
 	}
 	
 	

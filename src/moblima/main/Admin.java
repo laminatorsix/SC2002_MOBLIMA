@@ -9,27 +9,41 @@ public class Admin {
 	private static AdminLoginController adminLoginController = new AdminLoginController();
 	private static MovieController movieController = new MovieController();
 	public static ListingController listingController = new ListingController();
+	public static CineplexController cineplexController = new CineplexController();
+	public static CinemaController cinemaController = new CinemaController();
+	public static TicketPriceController ticketPriceController = new TicketPriceController();
+	public static HolidayController holidayController = new HolidayController();
+	
+	private static boolean contWhole = true;
 	
 	public static boolean adminLogin() {
-		do {
-			System.out.println("Please enter the password (Type 0 to exit): ");
-			String pw = s.nextLine();
-			if(adminLoginController.verifyLogin(pw)) {
-				System.out.println("Success!");
-				return true;
-			}
-			if(pw == "0")
-				return false; //exit
-			System.out.println("Wrong password!");
+		System.out.println("Please enter the password (Type 0 to exit): ");
+		String pw = s.nextLine();
+		if(adminLoginController.verifyLogin(pw)) {
+			System.out.println("Success!");
+			return true;
 		}
-		while(true);
+		
+		if(pw.equals("0"))
+			return false; //exit
+		
+		while(!adminLoginController.verifyLogin(pw)) {
+			System.out.println("Wrong password! Please enter again (Type 0 to exit): ");
+			pw = s.nextLine();
+			if(pw.equals("0"))
+				return false;
+		}
+		
+		return true;
+		
+		
 	}
 	
 	public static void showAdminMenu() {
 		System.out.println("1. Create/Update/Remove Movie Listing\n" //edit movie
 						+ "2. Create/Update/Remove Cinema Showtimes/Available Movies\n" //edit listings
-						+ "3. Configure System Settings"//edit all the prices etc 
-						+ "4. Logout"); //logout and return to main page
+						+ "3. Configure System Settings\n"//edit all the prices etc 
+						+ "4. Logout\n"); //logout and return to main page
 	}
 	
 //	1. Login
@@ -37,25 +51,25 @@ public class Admin {
 //	3. Create/Update/Remove cinema showtimes and the movies to be shown
 //	4. Configure system settings
 	public static void adminModule() {
+		contWhole = true;
 		showAdminMenu();
+		System.out.println();
 		System.out.println("Enter your choice: ");
-		int choice = s.nextInt();
+		int choice = Integer.parseInt(s.nextLine());
+		
 		switch(choice) {
 			case(1): //Create/Update/Remove movie listing
 				updateMovie();
-				
 				break;
 			case(2): //Create/Update/Remove cinema showtimes and the movies to be shown
-				
+				updateShowtimes();
 				break;
 			case(3): //configure system settings 
-				
-				
-				break;
-			case(4):
-				//logout and exit
+				configureSystemSettings();
 				break;
 			default:
+				//logout and exit
+				contWhole = false;
 				break;
 		}
 		
@@ -65,6 +79,7 @@ public class Admin {
 	
 	public static void updateMovie() {
 		System.out.println("---UPDATE MOVIE---");
+		System.out.println();
 		String name, desc, dir, cast, statusStr, ratingStr;
 		String[] castArr;
 		MovieStatus status;
@@ -76,7 +91,7 @@ public class Admin {
 						+ "2. Delete movie\n"
 						+ "3. Update movie details\n");
 		
-		switch(s.nextInt()) {
+		switch(Integer.parseInt(s.nextLine())) {
 			case 1: //Add movie
 				System.out.println("---ADD MOVIE---");
 				System.out.println("Enter movie name: ");
@@ -88,7 +103,7 @@ public class Admin {
 				System.out.println("Enter movie cast (Separated by commas):");
 				cast = s.nextLine();
 				castArr = cast.split(",");
-				System.out.println("Enter movie status (PREVIEW, NOWSHOWING, ENDOFSHOWING): ");
+				System.out.println("Enter movie status (COMINGSOON, NOWSHOWING, ENDOFSHOWING): ");
 				status = MovieStatus.valueOf(s.nextLine());
 				System.out.println("Enter movie rating (PG, PG13, NC16, M18, R21): ");
 				rating = MovieRating.valueOf(s.nextLine());
@@ -97,30 +112,27 @@ public class Admin {
 				break;
 			case 2: //delete movie
 				System.out.println("---DELETE MOVIE---");
+				System.out.println();
 				movieController.printAllMovies();
-				
+				System.out.println();
 				System.out.println("Enter name of movie to be deleted:");
 				name = s.nextLine();
 				
-				movieController.getNewMovie(name);
-				while(movieController.getMovie() == null) {
+				while(!movieController.getNewMovie(name)) {
 					System.out.println("This movie does not exist. Enter another name:");
 					name = s.nextLine();
-					movieController.getNewMovie(name);
 				}
 				
-				movieController.deleteMovieFromDatabase(movieController.getMovie());
+				movieController.deleteMovieFromDatabase();
 				break;
 			case 3: //update movie
 				System.out.println("---UPDATE MOVIE---");
 				movieController.printAllMovies();
 				System.out.println("Enter name of movie to be updated: ");
 				name = s.nextLine();
-				movieController.getNewMovie(name);
-				while(movieController.getMovie() == null) {
+				while(!movieController.getNewMovie(name)) {
 					System.out.println("This movie does not exist. Enter another name:");
 					name = s.nextLine();
-					movieController.getNewMovie(name);
 				}
 				
 				while(cont) {
@@ -133,7 +145,7 @@ public class Admin {
 							+ "6. Rating\n"
 							+ "7. Exit\n");
 					
-					switch(s.nextInt()) {
+					switch(Integer.parseInt(s.nextLine())) {
 						case 1: 
 							System.out.println("Enter new name: ");
 							name = s.nextLine();
@@ -181,6 +193,133 @@ public class Admin {
 	}
 	
 	public static void updateShowtimes() {
+		System.out.println("---UPDATE SHOWTIMES---");
+		int choice;
+		String cineplex, movie, date, time, name, is3Dstr, hall, cinemaCode;
+		boolean is3D;
+		boolean cont = true;
+		
+		System.out.println("Cineplexes:");
+		cineplexController.printAllCineplexNames();
+		System.out.println();
+		do {
+			System.out.println("Enter Cineplex: ");
+			cineplex = s.nextLine();
+		}while(!cineplexController.getNewCineplex(cineplex));
+		
+		System.out.println("Movies: ");
+		movieController.printAllMovieNames();
+		System.out.println();
+		
+		do {
+			System.out.println("Enter Movie: ");
+			movie = s.nextLine();
+		}while(!movieController.getNewMovie(movie));
+		
+		
+		while(cont) {
+			System.out.println();
+			System.out.println("Listings: ");
+			listingController.printAllListingsBasic(cineplexController.getCurrentCineplex(), movieController.getCurrentMovie());
+			System.out.println();
+			System.out.println("What would you like to do?\n"
+					+ "1. Add Showtime\n"
+					+ "2. Delete Showtime\n"
+					+ "3. Update Showtime\n"
+					+ "4. Delete all showtimes\n"
+					+ "5. Exit\n");
+					
+			choice = Integer.parseInt(s.nextLine());
+			switch(choice) {
+				case 1:
+					System.out.println("---ADD SHOWTIME---");
+					do {
+						System.out.println("Is it a 3D screening (Y/N): ");
+						is3Dstr = s.nextLine();
+					}while(!is3Dstr.equals("Y") && !is3Dstr.equals("N"));
+					
+					if(is3Dstr.equals("Y"))
+						is3D = true;
+					else
+						is3D = false;
+					
+					do {
+						System.out.println("Enter cinema hall number (1-3): ");
+						hall = s.nextLine();
+						cinemaCode = cineplexController.getCurrentCineplex().getCode() + "0" + hall;
+						
+					}while(!cinemaController.getNewCinema(cineplexController.getCurrentCineplex(), cinemaCode));
+					
+					while(true) {
+						System.out.println("Enter new date (yyyy/MM/dd): ");
+						date = s.nextLine();
+						System.out.println("Enter new time (HH:mm): ");
+						time = s.nextLine();
+						
+						if(listingController.setNewListing(date, time, movieController.getCurrentMovie(), cinemaController.getCurrentCinema(), is3D)) {
+							if(listingController.checkIfListingExists())
+								System.out.println("There is already a listing at this cinema.");
+							else
+								break;
+						}
+						else
+							System.out.println("Please re-enter the date and time.");
+					}
+					listingController.addListingToDatabase();
+					System.out.println("Success!");
+					break;
+				case 2:
+					System.out.println("---DELETE SHOWTIME---");
+					while(true) {
+						System.out.println("Enter date (yyyy/MM/dd): ");
+						date = s.nextLine();
+						System.out.println("Enter time (HH:mm): ");
+						time = s.nextLine();
+						
+						if(listingController.getNewListing(time, date, movie, cineplex))
+							break;
+						else
+							System.out.println("This listing does not exist.");
+					}
+					listingController.deleteListingFromDatabase();
+					System.out.println("Success!");
+					break;
+				case 3:
+					System.out.println("---EDIT SHOWTIME---");
+					while(true) {
+						System.out.println("Enter date (yyyy/MM/dd): ");
+						date = s.nextLine();
+						System.out.println("Enter time (HH:mm): ");
+						time = s.nextLine();
+						
+						if(listingController.getNewListing(time, date, movie, cineplex))
+							break;
+						else
+							System.out.println("This listing does not exist.");
+					}
+					
+					while(true) {
+						System.out.println("Enter new time (HH:mm): ");
+						time = s.nextLine();
+						if(listingController.setListingDateTime(date, time))
+							break;
+						else
+							System.out.println("Please re-enter the time.");
+					}
+					System.out.println("Success!");
+					break;
+				case 4:
+					listingController.deleteMovieFromDatabase(movie);
+					System.out.println("Success!");
+					System.out.println();
+					break;
+				case 5:
+					cont = false;
+					break;
+			}
+		}
+		
+		
 		//ask for cineplex -> movie -> show all listings -> enter a date and time
 		//for movie in moviedao -> print all listings for each movie, in order based on cineplex, movie
 		//listingocntroller - printalllistings (while same date and movie, print time only)
@@ -191,9 +330,217 @@ public class Admin {
 	}
 	
 	public static void configureSystemSettings() {
+		System.out.println("---CONFIGURE SYSTEM SETTINGS---");
+		System.out.println("What do you want to do?\n" 
+				+ "1. Configure Price\n"
+				+ "2. Configure Holidays\n"
+				+ "3. Configure Customer View\n"
+				+ "4. Exit\n");
+		
+		int choice = Integer.parseInt(s.nextLine());
+		
+		switch(choice) {
+			case 1: 
+				configurePrice();
+				break;
+			case 2:
+				configureHol();
+				break;
+			case 3:
+				configureView();
+				break;
+			default:
+				break;
+		}
+				
 		//bookingpricecontroller - set meal price, set  discount
 		//ticketpricecontroller - set base price, set 3D surcharge, set hol surcharge, set preview surcharge, set senior citizen surcharge, platinum cinema surcharge
 		//moviecontroller - whether customers can sort by idk what 
 		
+//				+ "1. Update Base Price\n"
+//				+ "2. Update 3D Surcharge\n"
+//				+ "3. Update Holiday Surcharge\n"
+//				+ "4. Update Preview Surcharge\n"
+//				+ "5. Update Platinum
+	}
+	
+	public static void configurePrice() {
+		int choice;
+		boolean cont = true;
+		double price;
+		
+		while(cont) {
+			System.out.println("What do you want to update?\n"
+					+ "1. Update Base Price\n"
+					+ "2. Update 3D Surcharge\n"
+					+ "3. Update Holiday Surcharge\n"
+					+ "4. Update Preview Surcharge\n"
+					+ "5. Update Platinum Surcharge\n"
+					+ "6. Update Senior Citizen Discount\n"
+					+ "7. Exit\n");
+			
+			choice = Integer.parseInt(s.next());
+			switch(choice) {
+				case 1: 
+					System.out.println("Current price: " + ticketPriceController.getTicketBasePrice());
+					System.out.println("Enter new price: ");
+					price = Double.parseDouble(s.nextLine());
+					ticketPriceController.setTicketBasePrice(price);
+					break;
+				case 2: 
+					System.out.println("Current 3D surcharge: " + ticketPriceController.getTicket3D());
+					System.out.println("Enter new surcharge: ");
+					price = Double.parseDouble(s.nextLine());
+					ticketPriceController.setTicket3D(price);
+					break;
+				case 3:
+					System.out.println("Current Holiday surcharge: " + ticketPriceController.getTicketHol());
+					System.out.println("Enter new surcharge: ");
+					price = Double.parseDouble(s.nextLine());
+					ticketPriceController.setTicketHol(price);
+					break;
+				case 4:
+					System.out.println("Current Preview surcharge: " + ticketPriceController.getTicketPreview());
+					System.out.println("Enter new surcharge: ");
+					price = Double.parseDouble(s.nextLine());
+					ticketPriceController.setTicketPreview(price);
+					break;
+				case 5:
+					System.out.println("Current Platinum surcharge: " + ticketPriceController.getTicketPlat());
+					System.out.println("Enter new surcharge: ");
+					price = Double.parseDouble(s.nextLine());
+					ticketPriceController.setTicketPlat(price);
+					break;
+				case 6:
+					System.out.println("Current Senior discount: " + ticketPriceController.getTicketSeniorCitizen());
+					System.out.println("Enter new discount (0<discount<1): ");
+					price = Double.parseDouble(s.nextLine());
+					ticketPriceController.setTicketSeniorCitizen(price);
+					break;
+				default:
+					cont = false;
+					break;
+					
+			}
+		}
+	}
+	
+	public static void configureHol() {
+		boolean cont = true;
+		int choice;
+		String name, date;
+		
+		while(cont) {
+			if(!holidayController.printAllHolidays())
+				System.out.println("There are no holidays in the system.");
+			System.out.println("What do you want to do? \n"
+					+ "1. Add Holiday\n"
+					+ "2. Delete Holiday\n");
+			choice = Integer.parseInt(s.next());
+			switch(choice) {
+				case 1:
+					System.out.println("Enter holiday name: ");
+					name = s.nextLine();
+					while(true) {
+						System.out.println("Enter date: ");
+						date = s.nextLine();
+						if(holidayController.setNewHol(name, date))
+							break;
+						else
+							System.out.println("Please re-enter the date.");		
+					}
+					holidayController.addHol();
+					System.out.println("Success!");
+					break;
+				case 2:
+					while(true) {
+						System.out.println("Enter holiday name: ");
+						name = s.nextLine();
+						if(holidayController.getNewHol(name))
+							break;
+						else
+							System.out.println("This holiday does not exist.");
+					}
+					holidayController.deleteHol();
+					System.out.println("Success!");
+					break;
+				case 3:
+					cont = false;
+					break;
+					
+			}
+		}
+		
+	}
+	public static void configureView() {
+		int choice;
+		boolean cont = true;
+		
+		System.out.println("---CONFIGURE MOVIE VIEW---");
+		while(cont) {
+			System.out.println("What do you want to do? \n"
+					+ "1. Sort Top 5 by Ticket Sales ONLY\n"
+					+ "2. Sort Top 5 by Overall Rating ONLY\n"
+					+ "3. Sort Top 5 by BOTH\n"
+					+ "4. View Top 5 by Ticket Sales\n"
+					+ "5. View Top 5 by Overall Rating\n"
+					+ "6. Exit\n");
+			
+			choice = Integer.parseInt(s.nextLine());
+			
+			switch(choice) {
+				case 1:
+					movieController.setFilter(0);
+					break;
+				case 2:
+					movieController.setFilter(1);
+					break;
+				case 3:
+					movieController.setFilter(2);
+					break;
+				case 4:
+					movieController.sortByTotalSales();
+					movieController.printTopFiveMovies();
+					break;
+				case 5:
+					movieController.sortByOverallRating();
+					movieController.printTopFiveMovies();
+					break;
+				default:
+					cont = false;
+					break;
+			}
+			
+		}
+		
+	}
+	
+	
+	/**
+	 * Finalises database.
+	 */
+	
+	public static void end() {
+		movieController.close();
+		listingController.close();
+		holidayController.close();
+		cineplexController.close();
+		cinemaController.close();
+	}
+	
+	/**
+	 * Returns whether the program should continue running.
+	 * @return cont.
+	 */
+	public static boolean returnCont() {
+		return contWhole;
+	}
+	
+	/**
+	 * Sets whether the program should continue running.
+	 * @return cont.
+	 */
+	public static void setCont() {
+		contWhole = true;
 	}
 }

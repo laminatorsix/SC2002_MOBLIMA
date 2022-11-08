@@ -27,12 +27,25 @@ public class TestApp {
 			cine2 = cineplexDao.getCineplex("Jewel");
 			cine3 = cineplexDao.getCineplex("Paya Lebar");
 			
+//			
 			if(i != 1)
 				p = false;
+				
+//			c1 = new Cinema(cine1, p, cinemaDao.getCinemaCount(cine1)+1);
+//			c2 = new Cinema(cine2, p, cinemaDao.getCinemaCount(cine2)+1);
+//			c3 = new Cinema(cine3, p, cinemaDao.getCinemaCount(cine3)+1);
 			
-			c1 = new Cinema(cine1, p, cinemaDao.getCinemaCount(cine1)+1);
-			c2 = new Cinema(cine2, p, cinemaDao.getCinemaCount(cine2)+1);
-			c3 = new Cinema(cine3, p, cinemaDao.getCinemaCount(cine3)+1);
+			c1 = new Cinema(cine1, p, i);
+			c2 = new Cinema(cine2, p, i);
+			c3 = new Cinema(cine3, p, i);
+		
+//			c1 = cinemaDao.getCinema(cine1, cine1.getCode() + "0" + Integer.toString(i));
+//			c2 = cinemaDao.getCinema(cine2, cine2.getCode() + "0" + Integer.toString(i));
+//			c3 = cinemaDao.getCinema(cine3, cine3.getCode() + "0" + Integer.toString(i));
+			
+//			cinemaDao.delete(c1);
+//			cinemaDao.delete(c2);
+//			cinemaDao.delete(c3);
 			
 			cinemaDao.add(c1);
 			cinemaDao.add(c2);
@@ -40,6 +53,9 @@ public class TestApp {
 			
 			
 		}
+		
+		//ADD MOVIES
+		
 		
 		//cinemaDao.deleteAll();
 //		for(int i = 0; i < 3; i++) {
@@ -56,6 +72,8 @@ public class TestApp {
 		//listingDao.add(null);
 		String[] cast1 = {"Michael Sheen", "David Tennant"};
 		Movie movie1 = new Movie("Hi", MovieStatus.NOWSHOWING, "Amazing show", "Douglas Mackinnson", cast1, MovieRating.PG13);
+		
+		
 		//movieDao.delete(movie1);
 		//movieDao.add(movie1);
 		

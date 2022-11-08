@@ -5,6 +5,14 @@ import moblima.controller.*;
 
 public class User {
 	private static Scanner s = new Scanner(System.in);
+	private static boolean contWhole = true;
+	private static MovieController movieController = new MovieController();
+	private static ListingController listingController = new ListingController();
+	private static MovieReviewController movieReviewController = new MovieReviewController();
+	private static MoviegoerController moviegoerController = new MoviegoerController();
+	private static BookingController bookingController = new BookingController();
+	private static CineplexController cineplexController = new CineplexController();
+	
 	
 	public static void showUserMenu() {
 		System.out.println("1. Search Movies\n" //print movie details
@@ -12,30 +20,20 @@ public class User {
 						 + "3. Buy Ticket\n" //purchase ticket
 						 + "4. View Booking History\n" //print booking history of customer
 						 + "5. Exit\n");
-		
-//		1. Search/List movie
-//		2. View movie details – including reviews and ratings
-//		3. Check seat availability and selection of seat/s.
-//		4. Book and purchase ticket
-//		5. View booking history
-//		6. List the Top 5 ranking by ticket sales OR by overall reviewers’ ratings
 	}
 	
 	public static void userModule() {
-		User.showUserMenu();
+		contWhole = true;
+		showUserMenu();
+		System.out.println();
 		System.out.println("Enter your choice: ");
-		int choice = s.nextInt();
+		int choice = Integer.parseInt(s.nextLine());
 		switch(choice) {
 			case(1):
-				System.out.println("Enter Movie Name: ");
-				String movieName = s.next();
-				//moviecontroller - retrievemoviefromdatabase
-				//moviecontroller - printmoviedetails
-				//moviereviewcontroller - printmoviereviews
+				showMovieDetails();
 				break;
 			case(2):
-				//moviecontroller choose whether to sort by sales or rating
-				//moviecontroller - print all movies
+				showAllMovies();
 				break;
 			case(3):
 				User.bookTicket();
@@ -44,94 +42,285 @@ public class User {
 				User.checkBookingHistory();
 				break;
 			default:
+				contWhole = false;
 				break;
+			
 		}
+		
 		
 	}
 	
 	public static void showMovieDetails() {
+		String name, input;
+		System.out.println("Current Movies: ");
+		movieController.printAllMovieNames();
+		System.out.println();
+		System.out.println("Enter Movie Name: ");
+		name = s.nextLine();
+		while(!movieController.getNewMovie(name)) {
+			System.out.println("Movie does not exist. Enter another movie: ");
+			name = s.nextLine();
+		}
+	
+		movieController.printMovie();
+		System.out.println();
+		System.out.println("Reviews: ");
+		movieReviewController.printAll(movieController.getCurrentMovie());
+		System.out.println();
+		System.out.println("Leave a review? (Y/N)");
+		input = s.nextLine();
+		while(!input.equals("Y") && !input.equals("N")) {
+			System.out.println("Please enter 'Y' or 'N'.");
+			input = s.nextLine();
+		}
 		
+		if(input.equals("Y")) {
+			System.out.println();
+			leaveReview();
+		}
+	}
+	
+	public static void leaveReview() {
+		String name, review;
+		int rating;
+		
+		System.out.println("Enter your review: ");
+		review = s.nextLine();
+		System.out.println("Enter your rating (/5): ");
+		rating = Integer.parseInt(s.nextLine());
+		
+		movieReviewController.setMovieReview(movieController.getCurrentMovie(), review, rating);
+		movieReviewController.addReviewToDatabase();
+		System.out.println("Success!");
+		System.out.println();
 	}
 	public static void showAllMovies() {
+		int filter = movieController.getFilter(), choice, filterChoice = filter;
+		boolean cont = true;
+		
+		while(cont) {
+			System.out.println("What would you like to do?\n"
+					+ "1. Show Top 5 Movies\n"
+					+ "2. Show All Movies\n");
+			
+			choice = Integer.parseInt(s.nextLine());
+			System.out.println();
+			
+			if(filter == 3) {
+				System.out.println("How would you like to sort the movies?\n"
+						+ "1. By Overall Rating\n"
+						+ "2. By Ticket Sales\n");
+				filterChoice = Integer.parseInt(s.next());
+			}
+			
+			if(filterChoice == 1)
+				movieController.sortByOverallRating();
+			else
+				movieController.sortByTotalSales();
+			
+			switch(choice) {
+				case 1:
+					movieController.printTopFiveMovies();
+					break;
+				case 2:
+					movieController.printAllMovies();
+					break;
+				case 3: 
+					cont = false;
+					break;
+					
+			}
+		}
+		System.out.println();
+		
+		
 		
 	}
 	
 	public static void bookTicket() {
-		//create moviecontroller object
-		//1.Print List of Movies Available
-//		3. Ask which movie to book for.
+		String movie, cineplex, date, time, input, name, email, mobile, code;
+		boolean senior = false, setMeal = false, discount = false;
+		//Movie
+		System.out.println("Movies: ");
+		movieController.printAllMovieNames();
+		System.out.println();
 		System.out.println("Enter a Movie: ");
-		String movie = s.next();
-//		//check if movie exists if not enter again
-		//Print all showtimes for that movie from each cineplex - use for loop and cineplex list
-//		3. Ask for a Cineplex.
+		movie = s.nextLine();
+		while(true) {
+			if(!movieController.getNewMovie(movie)) {
+				System.out.println("This movie does not exist. Enter another movie: ");
+				movie = s.nextLine();
+			}
+			else if(!listingController.printAllListingsForMovie(movieController.getCurrentMovie())){
+				System.out.println("There are no listings for this movie. Choose another movie: ");
+				movie = s.nextLine();
+			}
+			else
+				break;
+		}
 		
+		System.out.println();
+		
+		//Cineplex
+		System.out.println("Cineplexes: ");
+		cineplexController.printAllCineplexNames();
+		System.out.println();
 		System.out.println("Enter a Cineplex: ");
-		String cineplex = s.next();
-//		4. Show all Listings for that movie at that Cineplex.
-		//check if cineplex exists if not enter again
-		//check if there are listings if not enter again
 		
-//		5. Ask which Listing they want -> they choose by typing date in
-		System.out.println("Choose a Date (DD-MM-YYYY): ");
-		String date = s.next();
-		boolean yes;
-		//print out listings for that movie at that Cineplex at that date
+		cineplex = s.nextLine();
+		while(true) {
+			if(!cineplexController.getNewCineplex(cineplex)) {
+				System.out.println("This cineplex does not exist. Enter another cineplex: ");
+				cineplex = s.nextLine();
+			}
+			else if(!listingController.printAllListingsBasic(cineplexController.getCurrentCineplex(), movieController.getCurrentMovie())){
+				System.out.println("There are no listings for this cineplex. Choose another Cineplex: ");
+				cineplex = s.nextLine();
+			}
+			else
+				break;
+		}
+		
+		//DateTime
+		System.out.println("Choose a Date (YYYY-MM-DD): ");
+		date = s.nextLine();
 		
 		System.out.println("Choose a Time (HH:MM): ");
-		String time = s.next();
+		time = s.nextLine();
 		
-		String dateTime = date + " " + time;
-		//create and try to retrieve listing; if doesn't exist then ask to enter again
-		//print seats
+		while(!listingController.getNewListing(time, date, movie, cineplex)) {
+			System.out.println("There is no showtime on this date/format is wrong. Please re-enter.");
+			System.out.println();
+			
+			System.out.println("Choose a Date (YYYY-MM-DD): ");
+			date = s.nextLine();
+			
+			System.out.println("Choose a Time (HH:MM): ");
+			time = s.nextLine();
+		}
+		
+		//Seat
+		listingController.printListingSeats();
 		
 		System.out.println("Choose a row: ");
-		int row = s.nextInt();
+		int row = Integer.parseInt(s.nextLine())-1;
 		System.out.println("Choose a column: ");
-		int col = s.nextInt();
-//		6. Ask them to choose a seat.
-		//form seat object 
-//		6. Ask if they want a set meal.
-		System.out.println("Would you like to purchase a set meal? (Y/N): ");
-		String input = s.next();
-		if(input == "Y") {
-			//set set meal
-		}
-		else if(input == "N") {
-			//set set meal
-		}
-//		7. Ask for their details
-//		- Name, Email, Number, Senior Citizen?
+		int col = Integer.parseInt(s.nextLine())-1;
 		
+		while(!listingController.checkSeatAvailable(row, col)) {
+			System.out.println("That seat is not available. Please choose another.");
+			System.out.println();
+			System.out.println("Choose a row: ");
+			row = Integer.parseInt(s.nextLine()) - 1;
+			System.out.println("Choose a column: ");
+			col = Integer.parseInt(s.nextLine()) - 1;
+		}
+		
+		
+		System.out.println("Would you like to purchase a set meal? (Y/N): ");
+		input = s.nextLine();
+		while(!input.equals("Y") && !input.equals("N")) {
+			System.out.println("Please enter 'Y' or 'N'.");
+			input = s.nextLine();
+		}
+		if(input.equals("Y")) {
+			setMeal = true;
+		}
+		else if(input.equals("N")) {
+			setMeal = false;
+		}
+
+		//Moviegoer Details
 		System.out.println("Enter your name: ");
-		String name = s.next();
+		name = s.nextLine();
 		System.out.println("Enter your email address: ");
-		String email = s.next();
+		email = s.nextLine();
 		System.out.println("Enter your mobile number: ");
-		String mobile = s.next();
+		mobile = s.nextLine();
 		System.out.println("Are you over 60 years old? (Y/N): ");
-		input = s.next();
-		while(input != "Y" || input != "N") {
-			System.out.println("Please enter a valid response. ");
-			input = s.next();
+		input = s.nextLine();
+		while(!input.equals("Y") && !input.equals("N")) {
+			System.out.println("Please enter 'Y' or 'N'.");
+			input = s.nextLine();
 		}
 		if(input == "Y") {
-			//set senior citizen
+			senior = true;
 		}
 		else if(input == "N") {
-			//set senior citizen
+			senior = false;
 		}
+		
+		//If moviegoer doesn't exist
+		if(!moviegoerController.getMoviegoer(email, mobile)) {
+			moviegoerController.setMoviegoer(name, email, mobile, senior);
+			moviegoerController.addMoviegoerToDatabase();
+		}
+		
+		//discount code
+		System.out.println("Do you have a discount code? (Y/N) ");
+		input = s.nextLine();
+		while(!input.equals("Y") && !input.equals("N")) {
+			System.out.println("Please enter 'Y' or 'N'.");
+			input = s.nextLine();
+		}
+		
+		if(input.equals("Y")) {
+			System.out.println("Please enter the code: ");
+			code = s.nextLine();
+			while(!bookingController.checkBookingDiscountCode(code)) {
+				System.out.println("Incorrect. Enter another code? (Y/N)");
+				input = s.nextLine();
+				if(input.equals("N"))
+					break;
+			}
+			if(input.equals("Y"))
+				discount = true;
+		}
+		
+		
+		bookingController.setBooking(listingController.getListingSeat(row, col), moviegoerController.getCurrentMoviegoer(), setMeal, discount);
+		bookingController.addBookingToDatabase();
 		
 		System.out.println("Booking has been made. Here are your details: ");
+		bookingController.printBooking();
+		System.out.println();
 		//print booking details
 	}
 	
 	public static void checkBookingHistory() {
 		System.out.println("Enter your email address or mobile number: ");
-		String emailMobile;
-		//try retrieve customer from database
-		//check if email or number exists
+		String emailMobile = s.nextLine();
+		while(!moviegoerController.getMoviegoer(emailMobile, emailMobile)){
+			System.out.println("This user does not exist. Please enter another email/mobile: ");
+			emailMobile = s.nextLine();
+		}
 		
-		//print booking history
+		bookingController.printBookingHistory(moviegoerController.getCurrentMoviegoer());
+		System.out.println();
+	}
+	
+	/**
+	 * Finalises database.
+	 */
+	public static void end() {
+		movieController.close();
+		listingController.close();
+		moviegoerController.close();
+		bookingController.close();
+		movieReviewController.close();
+	}
+	/**
+	 * Returns contwhole.
+	 * @return contwhole.
+	 */ 
+	public static boolean returnCont() {
+		return contWhole;
+	}
+	/**
+	 * Sets whether the program should continue running.
+	 * @return cont.
+	 */
+	public static void setCont() {
+		contWhole = true;
 	}
 }
