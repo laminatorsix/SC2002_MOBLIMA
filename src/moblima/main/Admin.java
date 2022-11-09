@@ -7,12 +7,13 @@ import moblima.model.MovieStatus;
 public class Admin {
 	private static Scanner s = new Scanner(System.in);
 	private static AdminLoginController adminLoginController = new AdminLoginController();
-	private static MovieController movieController = new MovieController();
-	public static ListingController listingController = new ListingController();
-	public static CineplexController cineplexController = new CineplexController();
-	public static CinemaController cinemaController = new CinemaController();
-	public static TicketPriceController ticketPriceController = new TicketPriceController();
-	public static HolidayController holidayController = new HolidayController();
+	private static MovieController movieController;
+	public static ListingController listingController;
+	public static CineplexController cineplexController;
+	public static CinemaController cinemaController;
+	public static TicketPriceController ticketPriceController;
+	public static HolidayController holidayController;
+	
 	
 	private static boolean contWhole = true;
 	
@@ -40,10 +41,12 @@ public class Admin {
 	}
 	
 	public static void showAdminMenu() {
+		System.out.println("-----------------------------");
 		System.out.println("1. Create/Update/Remove Movie Listing\n" //edit movie
 						+ "2. Create/Update/Remove Cinema Showtimes/Available Movies\n" //edit listings
 						+ "3. Configure System Settings\n"//edit all the prices etc 
 						+ "4. Logout\n"); //logout and return to main page
+		System.out.println("-----------------------------");
 	}
 	
 //	1. Login
@@ -51,9 +54,10 @@ public class Admin {
 //	3. Create/Update/Remove cinema showtimes and the movies to be shown
 //	4. Configure system settings
 	public static void adminModule() {
+		
 		contWhole = true;
 		showAdminMenu();
-		System.out.println();
+	
 		System.out.println("Enter your choice: ");
 		int choice = Integer.parseInt(s.nextLine());
 		
@@ -85,12 +89,12 @@ public class Admin {
 		MovieStatus status;
 		MovieRating rating;
 		boolean cont = true;
-		
+		System.out.println("-----------------------------");
 		System.out.println("What would you like to do?\n" 
 						+ "1. Add new movie\n"
 						+ "2. Delete movie\n"
 						+ "3. Update movie details\n");
-		
+		System.out.println("-----------------------------");
 		switch(Integer.parseInt(s.nextLine())) {
 			case 1: //Add movie
 				System.out.println("---ADD MOVIE---");
@@ -136,7 +140,7 @@ public class Admin {
 				}
 				
 				while(cont) {
-					System.out.println("What would you like to update?"
+					System.out.println("What would you like to update?\n"
 							+ "1. Name\n"
 							+ "2. Description\n"
 							+ "3. Director\n"
@@ -335,7 +339,8 @@ public class Admin {
 				+ "1. Configure Price\n"
 				+ "2. Configure Holidays\n"
 				+ "3. Configure Customer View\n"
-				+ "4. Exit\n");
+				+ "4. Reset System (!!!)\n"
+				+ "5. Exit\n");
 		
 		int choice = Integer.parseInt(s.nextLine());
 		
@@ -348,6 +353,9 @@ public class Admin {
 				break;
 			case 3:
 				configureView();
+				break;
+			case 4:
+				resetSystem();
 				break;
 			default:
 				break;
@@ -370,6 +378,7 @@ public class Admin {
 		double price;
 		
 		while(cont) {
+			System.out.println("-----------------------------");
 			System.out.println("What do you want to update?\n"
 					+ "1. Update Base Price\n"
 					+ "2. Update 3D Surcharge\n"
@@ -378,8 +387,9 @@ public class Admin {
 					+ "5. Update Platinum Surcharge\n"
 					+ "6. Update Senior Citizen Discount\n"
 					+ "7. Exit\n");
+			System.out.println("-----------------------------");
 			
-			choice = Integer.parseInt(s.next());
+			choice = Integer.parseInt(s.nextLine());
 			switch(choice) {
 				case 1: 
 					System.out.println("Current price: " + ticketPriceController.getTicketBasePrice());
@@ -435,8 +445,10 @@ public class Admin {
 				System.out.println("There are no holidays in the system.");
 			System.out.println("What do you want to do? \n"
 					+ "1. Add Holiday\n"
-					+ "2. Delete Holiday\n");
-			choice = Integer.parseInt(s.next());
+					+ "2. Delete Holiday\n"
+					+ "3. Exit\n");
+			System.out.println("-----------------------------");
+			choice = Integer.parseInt(s.nextLine());
 			switch(choice) {
 				case 1:
 					System.out.println("Enter holiday name: ");
@@ -464,7 +476,7 @@ public class Admin {
 					holidayController.deleteHol();
 					System.out.println("Success!");
 					break;
-				case 3:
+				default:
 					cont = false;
 					break;
 					
@@ -485,6 +497,7 @@ public class Admin {
 					+ "4. View Top 5 by Ticket Sales\n"
 					+ "5. View Top 5 by Overall Rating\n"
 					+ "6. Exit\n");
+			System.out.println("-----------------------------");
 			
 			choice = Integer.parseInt(s.nextLine());
 			
@@ -514,8 +527,41 @@ public class Admin {
 		}
 		
 	}
-	
-	
+	/**
+	 * Initialise controller classes.
+	 */
+	public static void initialise() {
+		
+		movieController = new MovieController();
+		listingController = new ListingController();
+		cineplexController = new CineplexController();
+		cinemaController = new CinemaController();
+		ticketPriceController = new TicketPriceController();
+		holidayController = new HolidayController();
+	}
+	/**
+	 * Resets all data in system.
+	 */
+	public static void resetSystem() {
+		String choice;
+		do {
+			System.out.println("All data will be cleared. Are you sure? (Y/N)");
+			choice = s.nextLine();
+		}while(!choice.equals("Y") && !choice.equals("N"));
+		
+		if(!choice.equals("Y")) {
+			return;
+		}
+		
+		movieController.reset();
+		holidayController.reset();
+		listingController.reset();
+		User.initialise();
+		User.reset();
+		User.end();
+		
+		
+	}
 	/**
 	 * Finalises database.
 	 */

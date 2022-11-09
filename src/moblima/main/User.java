@@ -6,23 +6,26 @@ import moblima.controller.*;
 public class User {
 	private static Scanner s = new Scanner(System.in);
 	private static boolean contWhole = true;
-	private static MovieController movieController = new MovieController();
-	private static ListingController listingController = new ListingController();
-	private static MovieReviewController movieReviewController = new MovieReviewController();
-	private static MoviegoerController moviegoerController = new MoviegoerController();
-	private static BookingController bookingController = new BookingController();
-	private static CineplexController cineplexController = new CineplexController();
+	private static MovieController movieController;
+	private static ListingController listingController;
+	private static MovieReviewController movieReviewController;
+	private static MoviegoerController moviegoerController;
+	private static BookingController bookingController;
+	private static CineplexController cineplexController;
 	
 	
 	public static void showUserMenu() {
+		System.out.println("-----------------------------");
 		System.out.println("1. Search Movies\n" //print movie details
 	                     + "2. View Movies\n" //view all movies
 						 + "3. Buy Ticket\n" //purchase ticket
 						 + "4. View Booking History\n" //print booking history of customer
 						 + "5. Exit\n");
+		System.out.println("-----------------------------");
 	}
 	
 	public static void userModule() {
+		
 		contWhole = true;
 		showUserMenu();
 		System.out.println();
@@ -53,20 +56,23 @@ public class User {
 	public static void showMovieDetails() {
 		String name, input;
 		System.out.println("Current Movies: ");
-		movieController.printAllMovieNames();
+		movieController.printShowingMovieNames();
 		System.out.println();
 		System.out.println("Enter Movie Name: ");
 		name = s.nextLine();
-		while(!movieController.getNewMovie(name)) {
-			System.out.println("Movie does not exist. Enter another movie: ");
+		while(!movieController.getNewMovie(name) || !movieController.checkMovieShowing()) {
+			System.out.println("Movie does not exist/is no longer showing. Enter another movie: ");
 			name = s.nextLine();
 		}
-	
+		
+		System.out.println();
 		movieController.printMovie();
 		System.out.println();
+		System.out.println("-----------------------------------");
 		System.out.println("Reviews: ");
+		System.out.println("-----------------------------------");
 		movieReviewController.printAll(movieController.getCurrentMovie());
-		System.out.println();
+		
 		System.out.println("Leave a review? (Y/N)");
 		input = s.nextLine();
 		while(!input.equals("Y") && !input.equals("N")) {
@@ -77,6 +83,7 @@ public class User {
 		if(input.equals("Y")) {
 			System.out.println();
 			leaveReview();
+			
 		}
 	}
 	
@@ -94,22 +101,27 @@ public class User {
 		System.out.println("Success!");
 		System.out.println();
 	}
+	
 	public static void showAllMovies() {
 		int filter = movieController.getFilter(), choice, filterChoice = filter;
 		boolean cont = true;
 		
 		while(cont) {
+			System.out.println("-----------------------------");
 			System.out.println("What would you like to do?\n"
 					+ "1. Show Top 5 Movies\n"
-					+ "2. Show All Movies\n");
-			
+					+ "2. Show All Movies\n"
+					+ "3. Exit\n");
+			System.out.println("-----------------------------");
 			choice = Integer.parseInt(s.nextLine());
 			System.out.println();
 			
 			if(filter == 3) {
+				System.out.println("-----------------------------");
 				System.out.println("How would you like to sort the movies?\n"
 						+ "1. By Overall Rating\n"
 						+ "2. By Ticket Sales\n");
+				System.out.println("-----------------------------");
 				filterChoice = Integer.parseInt(s.next());
 			}
 			
@@ -120,10 +132,10 @@ public class User {
 			
 			switch(choice) {
 				case 1:
-					movieController.printTopFiveMovies();
+					movieController.printTopFiveShowingMovies();
 					break;
 				case 2:
-					movieController.printAllMovies();
+					movieController.printShowingMovies();
 					break;
 				case 3: 
 					cont = false;
@@ -142,13 +154,13 @@ public class User {
 		boolean senior = false, setMeal = false, discount = false;
 		//Movie
 		System.out.println("Movies: ");
-		movieController.printAllMovieNames();
+		movieController.printShowingMovieNames();
 		System.out.println();
 		System.out.println("Enter a Movie: ");
 		movie = s.nextLine();
 		while(true) {
-			if(!movieController.getNewMovie(movie)) {
-				System.out.println("This movie does not exist. Enter another movie: ");
+			if(!movieController.getNewMovie(movie) || !movieController.checkMovieShowing()) {
+				System.out.println("This movie does not exist/ is no longer showing. Enter another movie: ");
 				movie = s.nextLine();
 			}
 			else if(!listingController.printAllListingsForMovie(movieController.getCurrentMovie())){
@@ -162,8 +174,7 @@ public class User {
 		System.out.println();
 		
 		//Cineplex
-		System.out.println("Cineplexes: ");
-		cineplexController.printAllCineplexNames();
+		System.out.println("-----------------------------");
 		System.out.println();
 		System.out.println("Enter a Cineplex: ");
 		
@@ -207,7 +218,7 @@ public class User {
 		System.out.println("Choose a column: ");
 		int col = Integer.parseInt(s.nextLine())-1;
 		
-		while(!listingController.checkSeatAvailable(row, col)) {
+		while(!listingController.checkSeatAvailable(row, col) || row > listingController.getRows() || col > listingController.getCols()) {
 			System.out.println("That seat is not available. Please choose another.");
 			System.out.println();
 			System.out.println("Choose a row: ");
@@ -216,7 +227,7 @@ public class User {
 			col = Integer.parseInt(s.nextLine()) - 1;
 		}
 		
-		
+		listingController.updateSeat(row, col);
 		System.out.println("Would you like to purchase a set meal? (Y/N): ");
 		input = s.nextLine();
 		while(!input.equals("Y") && !input.equals("N")) {
@@ -243,10 +254,10 @@ public class User {
 			System.out.println("Please enter 'Y' or 'N'.");
 			input = s.nextLine();
 		}
-		if(input == "Y") {
+		if(input.equals("Y")) {
 			senior = true;
 		}
-		else if(input == "N") {
+		else if(input.equals("N")) {
 			senior = false;
 		}
 		
@@ -256,6 +267,8 @@ public class User {
 			moviegoerController.addMoviegoerToDatabase();
 		}
 		
+		bookingController.setBooking(listingController.getListingSeat(row, col), moviegoerController.getCurrentMoviegoer(), setMeal, false);
+		System.out.println("Current Booking Price: " + bookingController.getBookingPrice());
 		//discount code
 		System.out.println("Do you have a discount code? (Y/N) ");
 		input = s.nextLine();
@@ -274,14 +287,14 @@ public class User {
 					break;
 			}
 			if(input.equals("Y"))
-				discount = true;
+				bookingController.setBookingDiscount(true);
 		}
 		
 		
-		bookingController.setBooking(listingController.getListingSeat(row, col), moviegoerController.getCurrentMoviegoer(), setMeal, discount);
 		bookingController.addBookingToDatabase();
 		
-		System.out.println("Booking has been made. Here are your details: ");
+		System.out.println("Booking has been made. ");
+		System.out.println("-----------------------------");
 		bookingController.printBooking();
 		System.out.println();
 		//print booking details
@@ -322,5 +335,27 @@ public class User {
 	 */
 	public static void setCont() {
 		contWhole = true;
+	}
+	/**
+	 * Initialises all controllers.
+	 * Refreshes data.
+	 */
+	public static void initialise() {
+		movieController = new MovieController();
+		listingController = new ListingController();
+		movieReviewController = new MovieReviewController();
+		moviegoerController = new MoviegoerController();
+		bookingController = new BookingController();
+		cineplexController = new CineplexController();
+	}
+	/**
+	 * Resets everything.
+	 */
+	public static void reset() {
+		bookingController.reset();
+		moviegoerController.reset();
+		movieReviewController.reset();
+		movieController.reset();
+		listingController.reset();
 	}
 }

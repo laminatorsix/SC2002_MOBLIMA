@@ -48,13 +48,16 @@ public class MoblimaApp {
 			}
 				
 			if(admin == 1) {
+				Admin.initialise();
 				while(Admin.returnCont()) {
 					Admin.adminModule();
 				}
 				Admin.end();
+				
 			}
 			//user functions
 			else if(admin == 0) {
+				User.initialise();
 				while(User.returnCont()) {
 					User.userModule();
 				}
