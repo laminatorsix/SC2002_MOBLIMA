@@ -47,9 +47,11 @@ public class MovieReviewDao implements Dao<MovieReview>{
 	public void printAll(Movie movie){
 		for(int i = 0; i < movieReviews.size(); i++) {
 			MovieReview m = (MovieReview)movieReviews.get(i);
-			if(m.getMovie().getName() == movie.getName()) {
-				v.printMovieReview(m.getMovie().getName(), m.getRating(), m.getContent(), m.getTime());
+			if(m.getMovie().getName().equals(movie.getName())) {
+				v.printMovieReview(m.getRating(), m.getContent(), m.getTime());
+				System.out.println();
 			}
+			
 			
 		}
 	}
@@ -57,10 +59,8 @@ public class MovieReviewDao implements Dao<MovieReview>{
 	//update overall rating and update movie stats
 	@Override
 	public void add(MovieReview movieReview) {
-		if(movieReviews != null && movieReviews.contains(movieReview)) {
-			movieReviews.remove(movieReview);
-		}
 		movieReviews.add(movieReview);
+		
 		movieDao.updateRating(movieReview.getMovie(), movieReview.getRating(), true);
 	}
 	
@@ -73,7 +73,15 @@ public class MovieReviewDao implements Dao<MovieReview>{
 		movieDao.updateRating(movieReview.getMovie(), movieReview.getRating(), false);
 		
 	}
-	
+	/**
+	 * Clears all movie reviews.
+	 */
+	public void clear() {
+		movieReviews.clear();
+	}
+	/**
+	 * Updates database.
+	 */
 	public void end() {
 		SerializeDB.writeSerializedObject("data/movie_reviews.dat", movieReviews);
 		movieDao.end();

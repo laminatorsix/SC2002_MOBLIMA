@@ -92,20 +92,24 @@ public class ListingsDao implements Dao<Listing>{
 		System.out.println("Movie: " + movie.getName());
 		
 		for(Cineplex c : cine) {
+			System.out.println();
 			System.out.println("Cineplex: " + c.getName());
+			System.out.println("-----------------------");
 			for(int j = 0; j < listings.size(); j++) {
 				Listing l = (Listing)listings.get(j);
-				if(date == "" || date != l.getDate()) {
+				if(date == "" || !date.equals(l.getDate())) {
 					date = l.getDate();
-					System.out.println("Date: " + date);
+					if(l.getCinema().getCineplex().equals(c) && l.getMovie().equals(movie))
+						System.out.println("Date: " + date);
 				}
 				
 				if(l.getCinema().getCineplex().equals(c) && l.getMovie().equals(movie)) {
 					have = true;
 					listingview.printListingBasic(l.getCinema().getCode().substring(l.getCinema().getCode().length()-1), l.getTime(), l.is3D(), l.getCinema().isPlatinum());
 				}
-				System.out.println();
+			
 			}	
+			System.out.println();
 		}
 		
 		return have;
@@ -120,19 +124,20 @@ public class ListingsDao implements Dao<Listing>{
 	    String date = "";
 		System.out.println("Movie: " + movie.getName());
 		System.out.println("Cineplex: " + cineplex.getName());
-		System.out.println();
+		System.out.println("-----------------------------");
 		for(int i = 0; i < listings.size(); i++) {
 			Listing l = (Listing)listings.get(i);
-			if(date == "" || date != l.getDate()) {
+			if(date == "" || !date.equals(l.getDate())) {
 				date = l.getDate();
-				System.out.println("Date: " + date);
+				if(l.getCinema().getCineplex().equals(cineplex) && l.getMovie().equals(movie))
+					System.out.println("Date: " + date);
 			}
 			
 			if(l.getCinema().getCineplex().equals(cineplex) && l.getMovie().equals(movie)) {
 				have = true;
 				listingview.printListing(l.getCinema().getCode().substring(l.getCinema().getCode().length()-1), l.getTime(), l.is3D(), l.getCinema().isPlatinum());
 			}
-			System.out.println();
+			
 			
 		}
 		return have;
@@ -143,19 +148,20 @@ public class ListingsDao implements Dao<Listing>{
 	    String date = "";
 		System.out.println("Movie: " + movie.getName());
 		System.out.println("Cineplex: " + cineplex.getName());
-		
+		System.out.println("-----------------------------");
 		for(int i = 0; i < listings.size(); i++) {
 			Listing l = (Listing)listings.get(i);
-			if(date == "" || date != l.getDate()) {
+			if(date == "" || !date.equals(l.getDate())) {
 				date = l.getDate();
-				System.out.println("Date: " + date);
+				if(l.getCinema().getCineplex().equals(cineplex) && l.getMovie().equals(movie))
+					System.out.println("Date: " + date);
 			}
 			
 			if(l.getCinema().getCineplex().equals(cineplex) && l.getMovie().equals(movie)) {
 				have = true;
 				listingview.printListingBasic(l.getCinema().getCode().substring(l.getCinema().getCode().length()-1), l.getTime(), l.is3D(), l.getCinema().isPlatinum());
 			}
-			System.out.println();
+			
 			
 		}
 		return have;
@@ -206,6 +212,12 @@ public class ListingsDao implements Dao<Listing>{
 				delete(l);
 			}
 		}
+	}
+	/**
+	 * Clears all listings.
+	 */
+	public void clear() {
+		listings.clear();
 	}
 	/**
 	 * Writes updated data to listings.dat

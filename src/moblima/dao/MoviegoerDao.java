@@ -94,7 +94,12 @@ public class MoviegoerDao implements Dao<Moviegoer>{
 			moviegoers.remove(moviegoer);
 		}
 	};
-	
+	/**
+	 * Clears all moviegoers.
+	 */
+	public void clear() {
+		moviegoers.clear();
+	}
 	/**
 	 * Writes updated data to moviegoer.dat
 	 */

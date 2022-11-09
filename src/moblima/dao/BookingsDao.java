@@ -29,26 +29,28 @@ public class BookingsDao implements Dao<Booking> {
 		return bookings;
 	}
     
+	/**
+	 * print all bookings
+	 */
+	public void printAll(){
+		for(int i = 0; i < bookings.size(); i++) {
+			Booking m = (Booking)bookings.get(i);
+			b.printBooking(m.getTID(), m.getBookingPrice().getTotalPrice(), m.getTicket().getSeat().getListing().getMovie().getName(), m.getTicket().getSeat().getListing().getDateTime(), m.getDateTime());
 	
-//	public void printAll(){
-//		for(int i = 0; i < bookings.size(); i++) {
-//			Booking m = (Booking)bookings.get(i);
-//			System.out.println("Name: " + m.getName());
-//			System.out.println("Description: " + m.getDesc());
-//			System.out.println("Status: " + m.getStatus());
-//			System.out.print("Cast: ");
-//			Array.printArray(m.getCast());
-//		}
-//	}
+		}
+	}
 	
 	//print history for a certain moviegoer via email
 	public void printHistory(Moviegoer moviegoer) {
 		System.out.println("Customer Name: " + moviegoer.getName());
 		System.out.println("Email: " + moviegoer.getEmail());
+		System.out.println("-------------------");
 		for(int i = 0; i < bookings.size(); i++) {
 			Booking m = (Booking)bookings.get(i);
-			if(moviegoer.getEmail().equals(m.getTicket().getCustomer().getEmail()) && moviegoer.getMobile().equals(m.getTicket().getCustomer().getMobile())) {
+			
+			if(moviegoer.getEmail().equals(m.getTicket().getCustomer().getEmail()) || moviegoer.getMobile().equals(m.getTicket().getCustomer().getMobile())) {
 				b.printBooking(m.getTID(), m.getBookingPrice().getTotalPrice(), m.getTicket().getSeat().getListing().getMovie().getName(), m.getTicket().getSeat().getListing().getDateTime(), m.getDateTime());
+				System.out.println();
 			}
 		}
 	}
@@ -68,11 +70,18 @@ public class BookingsDao implements Dao<Booking> {
 		}
 	}
 	
+	/**
+	 * Clears all bookings.
+	 */
+	public void clear() {
+		bookings.clear();
+	}
+	
 	//no updating for bookings
 	/**
 	 * Writes updated data to bookings.dat
 	 */
 	public void end() {
-		SerializeDB.writeSerializedObject("data/booking.dat", bookings);
+		SerializeDB.writeSerializedObject("data/bookings.dat", bookings);
 	}
 }

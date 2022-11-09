@@ -84,11 +84,44 @@ public class MovieDao implements Dao<Movie>, Serializable{
 		}
 	}
 	/**
+	 * Only print movies that are in Preview or Showing.
+	 */
+	public void printAllShowing() {
+		for(int i = 0; i < movies.size(); i++) {
+			Movie m = (Movie)movies.get(i);
+			if(m.getStatus().equals("End of Showing")) {
+				continue;
+			}
+			System.out.println("Name: " + m.getName());
+			System.out.println("Description: " + m.getDesc());
+			System.out.println("Status: " + m.getStatus());
+			System.out.print("Cast: ");
+			
+			Array.printArray(m.getCast());
+			System.out.println("Rating: " + m.getMovieRating());
+			
+			System.out.println(m.getOverallRating() + "/5");
+			System.out.println();
+		}
+	}
+	/**
 	 * Print all movie names only
 	 */
 	public void printAllNames() {
 		for(int i = 0; i < movies.size(); i++) {
 			Movie m = (Movie)movies.get(i);
+			System.out.println(m.getName());
+		}
+	}
+	/**
+	 * Only print names of movies showing/preview.
+	 */
+	public void printAllNamesShowing() {
+		for(int i = 0; i < movies.size(); i++) {
+			Movie m = (Movie)movies.get(i);
+			if(m.getStatus().equals("End of Showing")) {
+				continue;
+			}
 			System.out.println(m.getName());
 		}
 	}
@@ -100,6 +133,27 @@ public class MovieDao implements Dao<Movie>, Serializable{
 			if(i == 5)
 				break;
 			Movie m = (Movie)movies.get(i);
+			System.out.println("Name: " + m.getName());
+			System.out.println("Description: " + m.getDesc());
+			System.out.println("Status: " + m.getStatus());
+			System.out.println("Cast: ");
+			Array.printArray(m.getCast());
+			System.out.println();
+			System.out.println(m.getOverallRating() + "/5");
+			System.out.println();
+		}
+	}
+	/**
+	 * Prints top 5 movies that are in preview/now showing.
+	 */
+	public void printTopFiveShowing() {
+		for(int i = 0; i < movies.size(); i++) {
+			if(i == 5)
+				break;
+			
+			Movie m = (Movie)movies.get(i);
+			if(m.getStatus().equals("End of Showing"))
+				continue;
 			System.out.println("Name: " + m.getName());
 			System.out.println("Description: " + m.getDesc());
 			System.out.println("Status: " + m.getStatus());
@@ -133,6 +187,7 @@ public class MovieDao implements Dao<Movie>, Serializable{
 			l.deleteMovie(movie.getName());
 		}
 	}
+	
 	
 	//UPDATES
 	/**
@@ -199,7 +254,8 @@ public class MovieDao implements Dao<Movie>, Serializable{
 		double overallRating = movie.getOverallRating();
 		double totalReviews = movie.getTotalReviews();
 		double totalRating = overallRating * totalReviews;
-		
+		System.out.println("Current overall rating: " + movie.getOverallRating());
+		System.out.println("Current total reviews: " + movie.getTotalReviews());
 		if(i == true) {
 			totalRating += r; 
 			totalReviews += 1;
@@ -210,7 +266,7 @@ public class MovieDao implements Dao<Movie>, Serializable{
 		}
 		
 		overallRating = totalRating / totalReviews;
-		m.setOverallRating(totalRating);
+		m.setOverallRating(overallRating);
 		m.setTotalReviews(totalReviews);
 		
 		
@@ -229,7 +285,12 @@ public class MovieDao implements Dao<Movie>, Serializable{
 	public void sortMoviesByOverallRating() {
 		Collections.sort(movies, Collections.reverseOrder(Comparator.comparing(Movie::getOverallRating)));
 	}
-	
+	/**
+	 * Clears all movies.
+	 */
+	public void clear() {
+		movies.clear();
+	}
 	/**
 	 * Writes updated data to movie.dat
 	 */

@@ -112,6 +112,12 @@ public class HolidaysDao implements Dao<Holiday>, Serializable{
 	};
 	
 	/**
+	 * Clears all holidays.
+	 */
+	public void clear() {
+		holidays.clear();
+	}
+	/**
 	 * Writes updated data to holidays.dat
 	 */
 	public void end() {
