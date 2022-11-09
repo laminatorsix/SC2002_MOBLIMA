@@ -42,8 +42,10 @@ public class TicketPrice implements Serializable{
 			totalPrice += surchargePreview;
 		}
 		if(ticket.getCustomer().isSeniorCitizen()) {
+			System.out.println("Senior");
 			totalPrice = totalPrice * (1-seniorCitizenDiscount);
 		}
+	
 		
 	}
 	

@@ -17,6 +17,10 @@ public class BookingPrice implements Serializable{
 	//private Booking booking;
 	
 	/**
+	 * Default constructor for BookingPrice.
+	 */
+	public BookingPrice() {}
+	/**
 	 * Constructor for BookingPrice.
 	 * @param booking
 	 */
@@ -62,6 +66,20 @@ public class BookingPrice implements Serializable{
 		}
 		
 		if(booking.hasMeal()) {
+			totalPrice = totalPrice + mealPrice;
+		}
+	}
+	/**
+	 * Updates price of booking.
+	 * @param hasDisc
+	 * @param hasMeal
+	 */
+	public void updatePrice(boolean hasDisc, boolean hasMeal) {
+		if(hasDisc) {
+			totalPrice = totalPrice * (1 - discount);
+		}
+		
+		if(hasMeal) {
 			totalPrice = totalPrice + mealPrice;
 		}
 	}

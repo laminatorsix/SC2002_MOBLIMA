@@ -50,6 +50,7 @@ public class Booking implements Serializable{
 		
 	}
 	
+	
 	//GETTERS
 	/**
 	 * Gets Ticket for this Booking.
@@ -105,21 +106,27 @@ public class Booking implements Serializable{
 	 * Updates if this Booking has a meal.
 	 * @param hasMeal
 	 */
-	public void hasMeal(boolean hasMeal) {this.hasMeal = hasMeal;}
+	public void hasMeal(boolean hasMeal) {
+		this.hasMeal = hasMeal;
+		this.bookingPrice.updatePrice(false, hasMeal);
+	}
 	/**
 	 * Updates if this Booking has a discount.
 	 * @param hasDiscount
 	 */
-	public void hasDiscount(boolean hasDiscount) {this.hasDiscount = hasDiscount;}
+	public void hasDiscount(boolean hasDiscount) {
+		this.hasDiscount = hasDiscount;
+		this.bookingPrice.updatePrice(hasDiscount, false);
+	}
 	/**
 	 * Generates TID of Booking.
 	 * @return TID.
 	 */
 	public String generateTID() {
 		String dateTime = ticket.getSeat().getListing().getDateTime();
-		tid = ticket.getSeat().getListing().getCinema().getCode() + dateTime;
-		for(int i = 0; i < dateTime.length(); i++) {
-			if(dateTime.charAt(i) != ' ' || dateTime.charAt(i) != '/'|| dateTime.charAt(i) != ':') {
+		tid = ticket.getSeat().getListing().getCinema().getCode();
+		for(int i = 0; i < dateTime.length()-2; i++) {
+			if(dateTime.charAt(i) != ' ' && dateTime.charAt(i) != '/' && dateTime.charAt(i) != ':') {
 				tid += dateTime.charAt(i);
 			}
 		}

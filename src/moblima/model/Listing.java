@@ -157,4 +157,12 @@ public class Listing implements Serializable{
 	 * @param is3D Whether this Listing is 3D or not.
 	 */
 	public void is3D(boolean is3D) {this.is3D = is3D;}
+	/**
+	 * Updates seat availability.
+	 * @param row
+	 * @param col
+	 */
+	public void updateSeat(int row, int col) {
+		this.seats[row][col].setBooked(true);
+	}
 }

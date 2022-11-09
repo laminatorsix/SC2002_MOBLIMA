@@ -166,6 +166,8 @@ public class Movie implements Serializable {
 		catch(IllegalArgumentException e){
 			status = MovieStatus.NA;
 		}
+		
+		
 	}
 	/**
 	 * Changes the rating of this Movie.
