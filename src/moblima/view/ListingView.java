@@ -32,11 +32,12 @@ public class ListingView {
 	 */
 	public void printListingBasic(String cinema, String time, boolean is3D, boolean isPlatinum) {
 		
-		System.out.println(time);
+		System.out.print(time);
 		if(is3D)
-			System.out.println("(3D)");
+			System.out.print(" |3D|");
 		if(isPlatinum)
-			System.out.println("(Platinum)");
+			System.out.print(" |Platinum|");
+		System.out.print("\n");
 		
 	}
 	/**

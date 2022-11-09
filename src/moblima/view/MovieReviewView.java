@@ -13,8 +13,7 @@ public class MovieReviewView {
 	 * @param content Content of the review.
 	 * @param time Time of publication.
 	 */
-	public void printMovieReview(String reviewerName, int rating, String content, String time) {
-		System.out.println("Reviewer: " + reviewerName);
+	public void printMovieReview(int rating, String content, String time) {
 		System.out.println("Rating: " + rating + "/5");
 		System.out.println("Review: " + content);
 		System.out.println("Published: " + time);
