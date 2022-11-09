@@ -9,7 +9,7 @@ public class TicketPriceController {
 	 * Mainly to get and set Ticket discounts and surcharges.
 	 */
 	public TicketPriceController() {
-		
+		model = new TicketPrice();
 	}
 	
 	

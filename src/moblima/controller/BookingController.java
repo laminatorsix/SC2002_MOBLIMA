@@ -76,7 +76,7 @@ public class BookingController {
 	 * @return Whether discount code is correct or not.
 	 */
 	public boolean checkBookingDiscountCode(String discountCode) {
-		if(discountCode == model.getDiscountCode()) {
+		if(discountCode.equals(model.getDiscountCode())) {
 			setBookingDiscount(true);
 			return true;
 		}
@@ -90,9 +90,14 @@ public class BookingController {
 	 */
 	public void addBookingToDatabase() {
 		dao.add(model);
-		
 	}
-	
+	/**
+	 * Gets price of booking.
+	 * @return
+	 */
+	public double getBookingPrice() {
+		return model.getBookingPrice().getTotalPrice();
+	}
 	/**
 	 * Prints booking history for a certain customer.
 	 * @param moviegoer Customer.
@@ -105,6 +110,18 @@ public class BookingController {
 	 */
 	public void printBooking() {
 		view.printBooking(model.getTID(), model.getBookingPrice().getTotalPrice(), model.getTicket().getSeat().getListing().getMovie().getName(), model.getTicket().getSeat().getListing().getDateTime(), model.getDateTime());
+	}
+	/**
+	 * Prints all bookings
+	 */
+	public void printAllBookings() {
+		dao.printAll();
+	}
+	/**
+	 * Reset all bookings.
+	 */
+	public void reset() {
+		dao.clear();
 	}
 	/**
 	 * Updates data.

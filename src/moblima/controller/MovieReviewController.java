@@ -29,7 +29,7 @@ public class MovieReviewController {
 	 */
 	public void setMovieReview(Movie movie, String content, int rating) {
 		model = new MovieReview(movie, content, rating);
-		dao.add(model);
+		//dao.add(model);
 	}
 	/**
 	 * Adds movie review to database.
@@ -44,7 +44,12 @@ public class MovieReviewController {
 	public void printAll(Movie movie) {
 		dao.printAll(movie);
 	}
-	
+	/**
+	 * Clears all movie reviews.
+	 */
+	public void reset() {
+		dao.clear();
+	}
 	/**
 	 * Saves MovieReview data.
 	 */

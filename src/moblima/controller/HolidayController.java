@@ -63,6 +63,12 @@ public class HolidayController {
 		return dao.printAll();
 	}
 	/**
+	 * Clears all holidays.
+	 */
+	public void reset() {
+		dao.clear();
+	}
+	/**
 	 * Updates database.
 	 */
 	public void close() {

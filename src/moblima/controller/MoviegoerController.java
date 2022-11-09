@@ -98,9 +98,17 @@ public class MoviegoerController {
 	public Moviegoer getCurrentMoviegoer() {
 		return model;
 	}
-	
+	/**
+	 * Adds current Moviegoer to database.
+	 */
 	public void addMoviegoerToDatabase() {
 		dao.add(model);
+	}
+	/**
+	 * Clears all moviegoers.
+	 */
+	public void reset() {
+		dao.clear();
 	}
 	/**
 	 * Updates database.

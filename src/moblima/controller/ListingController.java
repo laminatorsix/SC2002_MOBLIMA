@@ -237,11 +237,39 @@ public class ListingController {
 		return model;
 	}
 	/**
+	 * Returns total rows in a cinema.
+	 * @return rows.
+	 */
+	public int getRows() {
+		return model.getRow();
+	}
+	/**
+	 * Returns total cols in a cinema.
+	 * @return rows.
+	 */
+	public int getCols() {
+		return model.getCol();
+	}
+	/**
 	 * Deletes all Listings for a certain Movie.
 	 * @param name
 	 */
 	public void deleteMovieFromDatabase(String name) {
 		dao.deleteMovie(name);
+	}
+	/**
+	 * Updates seat availability.
+	 * @param row
+	 * @param col
+	 */
+	public void updateSeat(int row, int col) {
+		this.model.updateSeat(row, col);
+	}
+	/**
+	 * Resets listings.
+	 */
+	public void reset() {
+		dao.clear();
 	}
 	/**
 	 * Close Listing database.

@@ -9,6 +9,7 @@ public class BookingPriceController {
 	 * Constructor for BookingPriceController.
 	 */
 	public BookingPriceController() {
+		model = new BookingPrice();
 	}
 	
 	/**

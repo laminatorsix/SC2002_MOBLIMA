@@ -131,7 +131,16 @@ public class MovieController {
 	public void setMovieRating(String rating) {
 		dao.updateMovieRating(model, rating);
 	}
-	
+	/**
+	 * Checks if the movie can be booked.
+	 * @return
+	 */
+	public boolean checkMovieShowing() {
+		if(model.getStatus().equals("End of Showing")) {
+			return false;
+		}
+		return true;
+	}
 	//GETTERS
 	/**
 	 * Gets the overall rating of a Movie.
@@ -156,12 +165,23 @@ public class MovieController {
 		dao.printAll();
 	}
 	/**
+	 * Prints all showing movies.
+	 */
+	public void printShowingMovies() {
+		dao.printAllShowing();
+	}
+	/**
 	 * Prints the names of all movies.
 	 */
 	public void printAllMovieNames() {
 		dao.printAllNames();
 	}
-	
+	/**
+	 * Prints only the names of movies that are in preview/ now showing.
+	 */
+	public void printShowingMovieNames() {
+		dao.printAllNamesShowing();
+	}
 	/**
 	 * Sorts movies by overall rating.
 	 */
@@ -195,6 +215,12 @@ public class MovieController {
 	public void printTopFiveMovies() {
 		dao.printTopFive();
 	}
+	/**
+	 * Prints top five showing movies.
+	 */
+	public void printTopFiveShowingMovies() {
+		dao.printTopFiveShowing();
+	}
 	
 	/**
 	 * Adds movie to database.
@@ -219,8 +245,10 @@ public class MovieController {
 		System.out.println("Description: " + model.getDesc());
 		System.out.println("Status: " + model.getStatus());
 		System.out.print("Cast: ");
-		
 		Array.printArray(model.getCast());
+		System.out.println();
+		System.out.println(model.getOverallRating() + "/5");
+		
 	}
 	
 	
@@ -236,6 +264,12 @@ public class MovieController {
 	 */
 	public void sortMoviesByTotalSales() {
 		dao.sortMoviesByTotalSales();
+	}
+	/**
+	 * Clears all movies.
+	 */
+	public void reset() {
+		dao.clear();
 	}
 	
 	/**
