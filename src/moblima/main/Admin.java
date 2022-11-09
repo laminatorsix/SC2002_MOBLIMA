@@ -119,9 +119,10 @@ public class Admin {
 				System.out.println();
 				movieController.printAllMovies();
 				System.out.println();
-				System.out.println("Enter name of movie to be deleted:");
+				System.out.println("Enter name of movie to be deleted (0 to exit):");
 				name = s.nextLine();
-				
+				if(name.equals("0"))
+					break;
 				while(!movieController.getNewMovie(name)) {
 					System.out.println("This movie does not exist. Enter another name:");
 					name = s.nextLine();
@@ -132,8 +133,10 @@ public class Admin {
 			case 3: //update movie
 				System.out.println("---UPDATE MOVIE---");
 				movieController.printAllMovies();
-				System.out.println("Enter name of movie to be updated: ");
+				System.out.println("Enter name of movie to be updated (0 to exit): ");
 				name = s.nextLine();
+				if(name.equals("0"))
+					break;
 				while(!movieController.getNewMovie(name)) {
 					System.out.println("This movie does not exist. Enter another name:");
 					name = s.nextLine();

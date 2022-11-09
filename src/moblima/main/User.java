@@ -156,8 +156,10 @@ public class User {
 		System.out.println("Movies: ");
 		movieController.printShowingMovieNames();
 		System.out.println();
-		System.out.println("Enter a Movie: ");
+		System.out.println("Enter a Movie (0 to Exit): ");
 		movie = s.nextLine();
+		if(movie.equals("0"))
+			return;
 		while(true) {
 			if(!movieController.getNewMovie(movie) || !movieController.checkMovieShowing()) {
 				System.out.println("This movie does not exist/ is no longer showing. Enter another movie: ");
