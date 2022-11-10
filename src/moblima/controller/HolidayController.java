@@ -2,7 +2,9 @@ package moblima.controller;
 import moblima.model.Holiday;
 import moblima.dao.HolidaysDao;
 
-
+/**
+ * Controller class for Holiday.
+ */
 public class HolidayController {
 	private Holiday model;
 	private HolidaysDao dao;

@@ -90,11 +90,9 @@ public class ListingController {
 	
 	/**
 	 * Updates Listing date and time.
-	 * @param year
-	 * @param day
-	 * @param month
-	 * @param hours
-	 * @param minutes
+	 * @param date
+	 * @param time
+	 * @return
 	 */
 	public boolean setListingDateTime(String date, String time) {
 		//yyyy/MM/dd
@@ -121,14 +119,12 @@ public class ListingController {
 	
 	/**
 	 * Creates a new Listing.
-	 * @param year
-	 * @param day
-	 * @param month
-	 * @param hours
-	 * @param minutes
+	 * @param date
+	 * @param time
 	 * @param movie
 	 * @param cinema
 	 * @param is3D
+	 * @return
 	 */
 	public boolean setNewListing(String date, String time, Movie movie, Cinema cinema, boolean is3D) {
 		int year, day, month, hours, minutes;
@@ -164,7 +160,6 @@ public class ListingController {
 	}
 	/**
 	 * Checks if Listing already exists.
-	 * @param listing
 	 * @return
 	 */
 	public boolean checkIfListingExists() {

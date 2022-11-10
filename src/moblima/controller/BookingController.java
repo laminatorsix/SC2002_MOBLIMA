@@ -37,9 +37,10 @@ public class BookingController {
 	
 	/**
 	 * Sets Booking Model.
-	 * @param ticket Ticket booked.
+	 * @param seat Seat linked to this booking.
+	 * @param customer Customer who made the booking.
 	 * @param hasMeal If there is a meal.
-	 * @param discount If there is a discount.
+	 * @param hasDiscount If there is a discount.
 	 */
 	public void setBooking(Seat seat, Moviegoer customer, boolean hasMeal, boolean hasDiscount) {
 		model = new Booking(seat, customer, hasMeal, hasDiscount);
@@ -93,7 +94,7 @@ public class BookingController {
 	}
 	/**
 	 * Gets price of booking.
-	 * @return
+	 * @return booking price of booking.
 	 */
 	public double getBookingPrice() {
 		return model.getBookingPrice().getTotalPrice();

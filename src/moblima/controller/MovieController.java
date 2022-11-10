@@ -30,9 +30,12 @@ public class MovieController {
 	
 	/**
 	 * Constructor for MovieController.
-	 * Creates a new Movie.
-	 * @param model
-	 * @param dao
+	 * @param n Name of movie.
+	 * @param s Movie status.
+	 * @param d Movie description.
+	 * @param di Movie director.
+	 * @param c Movie cast.
+	 * @param r Movie rating.
 	 */
 	public MovieController(String n, MovieStatus s, String d, String di, String[] c, MovieRating r) {
 		this.model = new Movie(n, s, d, di, c, r);
@@ -237,8 +240,7 @@ public class MovieController {
 		dao.delete(model);
 	}
 	/**
-	 * Prints a Movie.
-	 * @param movie
+	 * Prints the current Movie.
 	 */
 	public void printMovie() {
 		System.out.println("Name: " + model.getName());

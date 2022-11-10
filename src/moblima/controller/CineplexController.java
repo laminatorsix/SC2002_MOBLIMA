@@ -42,7 +42,9 @@ public class CineplexController {
 		dao.printAll();
 		System.out.println();
 	}
-	
+	/**
+	 * Prints all Cineplexes by name.
+	 */
 	public void printAllCineplexNames() {
 		dao.printAllNames();
 		System.out.println();

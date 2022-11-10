@@ -2,6 +2,9 @@ package moblima.controller;
 import moblima.model.BookingPrice;
 import moblima.model.Booking;
 
+/**
+ * Controller class for BookingPrice.
+ */
 public class BookingPriceController {
 	private BookingPrice model;
 	
