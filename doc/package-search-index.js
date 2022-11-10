@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"moblima.controller"},{"l":"moblima.dao"},{"l":"moblima.model"},{"l":"moblima.view"}];updateSearchResults();
