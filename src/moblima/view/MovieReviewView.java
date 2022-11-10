@@ -8,7 +8,6 @@ import moblima.model.*;
 public class MovieReviewView {
 	/**
 	 * Prints a movie review.
-	 * @param reviewerName Name of reviewer.
 	 * @param rating Rating posted by the reviewer.
 	 * @param content Content of the review.
 	 * @param time Time of publication.
