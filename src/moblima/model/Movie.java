@@ -157,7 +157,7 @@ public class Movie implements Serializable {
 	}
 	/**
 	 * Changes the status of this Movie.
-	 * @param s This Movie's status
+	 * @param movieStatus This Movie's status
 	 */
 	public void setStatus(String movieStatus) {
 		try {

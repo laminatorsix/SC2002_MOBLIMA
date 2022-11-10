@@ -38,7 +38,7 @@ public class Cinema implements Serializable{
 	 * Constructor for Cinema.
 	 * @param cineplex The cineplex this Cinema is located in.
 	 * @param isPlatinum Whether this Cinema is Platinum.
-	 * @param code This Cinema's code.
+	 * @param cinemaCount Number of cinemas in that specific Cineplex.
 	 */
 	public Cinema(Cineplex cineplex, boolean isPlatinum, int cinemaCount) {
 		this.cineplex = cineplex;
@@ -81,6 +81,7 @@ public class Cinema implements Serializable{
 	public void isPlatinum(boolean isPlatinum) {this.isPlatinum = isPlatinum;}
 	/**
 	 * Generates this Cinema's ID code.
+	 * @param cinemaCount The number of cinemas in the specific Cineplex.
 	 * @return this Cinema's ID code.
 	 */
 	public String generateCode(int cinemaCount) {

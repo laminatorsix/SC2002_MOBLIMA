@@ -34,7 +34,8 @@ public class Booking implements Serializable{
 	}
 	/**
 	 * Constructor for Booking.
-	 * @param ticket
+	 * @param seat
+	 * @param customer
 	 * @param hasMeal
 	 * @param hasDiscount
 	 */

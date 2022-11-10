@@ -35,13 +35,19 @@ public class Holiday implements Serializable{
 	
 	/**
 	 * Constructor for Holiday.
-	 * @param dateTime
+	 * @param year
+	 * @param day
+	 * @param month
+	 * @param name Holiday name.
 	 */
 	public Holiday(int year, int day, int month, String name) {
 		this.dateTime = new DateTime(year, day, month);
 		this.name = name;
 	}
-	
+	/**
+	 * Gets date of this holiday (string).
+	 * @return
+	 */
 	public String getDate() {return dateTime.getDate();}
 	/**
 	 * Gets DateTime of this Holiday.

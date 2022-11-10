@@ -75,7 +75,13 @@ public class DateTime implements Serializable{
 		date = LocalDate.of(year, month, day);
 		dString = date.format(datef);
 	}
-	
+	/**
+	 * Constructor for DateTime.
+	 * @param year
+	 * @param day
+	 * @param month
+	 * @param isHol
+	 */
 	public DateTime(int year, int day, int month, boolean isHol) {
 		date = LocalDate.of(year, month, day);
 		dString = date.format(datef);

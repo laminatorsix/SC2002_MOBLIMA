@@ -36,7 +36,7 @@ public class Cineplex implements Serializable{
 	/**
 	 * Constructor for Cineplex.
 	 * @param name This Cineplex's name.
-	 * @param code This Cineplex's ID code.
+	 * @param count The total number of Cineplexes so far.
 	 */
 	public Cineplex(String name, int count) {
 		this.name = name;
