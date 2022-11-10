@@ -88,6 +88,7 @@ public class CinemaDao implements Dao<Cinema>{
 	/**
 	 * Gets a certain cinema based on its code.
 	 * @param code
+	 * @param cineplex
 	 * @return cinema
 	 */
 	public Cinema getCinema(Cineplex cineplex, String code) {

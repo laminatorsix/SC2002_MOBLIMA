@@ -5,12 +5,18 @@ import java.util.Optional;
 import moblima.view.BookingView;
 import moblima.model.*;
 
+/**
+ * DAO class for Bookings.
+ * Access bookings data.
+ */
 public class BookingsDao implements Dao<Booking> {
 	List<Booking> bookings;
 	BookingView b = new BookingView();
 	
 	
-
+	/**
+	 * Default constructor for BookingsDao.
+	 */
 	public BookingsDao() {
 		bookings = (ArrayList)SerializeDB.readSerializedObject("data/bookings.dat");
 		if(bookings == null) {
@@ -40,7 +46,10 @@ public class BookingsDao implements Dao<Booking> {
 		}
 	}
 	
-	//print history for a certain moviegoer via email
+	/**
+	 * Prints booking history for moviegoer.
+	 * @param moviegoer 
+	 */
 	public void printHistory(Moviegoer moviegoer) {
 		System.out.println("Customer Name: " + moviegoer.getName());
 		System.out.println("Email: " + moviegoer.getEmail());

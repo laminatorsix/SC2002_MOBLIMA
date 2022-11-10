@@ -9,6 +9,11 @@ import java.util.Optional;
 import moblima.model.Holiday;
 import moblima.model.DateTime;
 
+/**
+ * DAO class for Holiday.
+ * @author A Penguin
+ *
+ */
 public class HolidaysDao implements Dao<Holiday>, Serializable{
 	/**
 	 * 

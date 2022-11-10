@@ -225,7 +225,7 @@ public class MovieDao implements Dao<Movie>, Serializable{
 	/**
 	 * Updates this Movie's status
 	 * @param movie This Movie
-	 * @param s New status for this Movie
+	 * @param movieStatus New status for this Movie
 	 */
 	public void updateStatus(Movie movie, String movieStatus) {
 		Movie m = (Movie)(movies.get(movies.indexOf(movie)));

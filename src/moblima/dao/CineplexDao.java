@@ -4,7 +4,9 @@ import moblima.model.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+/**
+ * DAO class for Cineplex.
+ */
 public class CineplexDao implements Dao<Cineplex>{
 	List<Cineplex> cineplexes;
 	/**
