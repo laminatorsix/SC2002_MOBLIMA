@@ -79,7 +79,7 @@ public class MovieDao implements Dao<Movie>, Serializable{
 			Array.printArray(m.getCast());
 			System.out.println("Rating: " + m.getMovieRating());
 			
-			System.out.println(m.getOverallRating() + "/5");
+			System.out.println(m.getOverallRatingPrint() + "/5");
 			System.out.println();
 		}
 	}
@@ -100,7 +100,7 @@ public class MovieDao implements Dao<Movie>, Serializable{
 			Array.printArray(m.getCast());
 			System.out.println("Rating: " + m.getMovieRating());
 			
-			System.out.println(m.getOverallRating() + "/5");
+			System.out.println(m.getOverallRatingPrint() + "/5");
 			System.out.println();
 		}
 	}
@@ -139,7 +139,7 @@ public class MovieDao implements Dao<Movie>, Serializable{
 			System.out.println("Cast: ");
 			Array.printArray(m.getCast());
 			System.out.println();
-			System.out.println(m.getOverallRating() + "/5");
+			System.out.println(m.getOverallRatingPrint() + "/5");
 			System.out.println();
 		}
 	}
@@ -160,7 +160,7 @@ public class MovieDao implements Dao<Movie>, Serializable{
 			System.out.println("Cast: ");
 			Array.printArray(m.getCast());
 			System.out.println();
-			System.out.println(m.getOverallRating() + "/5");
+			System.out.println(m.getOverallRatingPrint() + "/5");
 			System.out.println();
 		}
 	}
@@ -251,11 +251,12 @@ public class MovieDao implements Dao<Movie>, Serializable{
 	 */
 	public void updateRating(Movie movie, int r, boolean i) {
 		Movie m = (Movie)(movies.get(movies.indexOf(movie)));
-		double overallRating = movie.getOverallRating();
-		double totalReviews = movie.getTotalReviews();
+		double overallRating = m.getOverallRating();
+		double totalReviews = m.getTotalReviews();
 		double totalRating = overallRating * totalReviews;
 		System.out.println("Current overall rating: " + movie.getOverallRating());
 		System.out.println("Current total reviews: " + movie.getTotalReviews());
+		System.out.println("Current rating: " + r);
 		if(i == true) {
 			totalRating += r; 
 			totalReviews += 1;
@@ -266,8 +267,13 @@ public class MovieDao implements Dao<Movie>, Serializable{
 		}
 		
 		overallRating = totalRating / totalReviews;
+		
 		m.setOverallRating(overallRating);
 		m.setTotalReviews(totalReviews);
+		
+		System.out.println("Final overall rating: " + m.getOverallRating());
+		System.out.println("Final total reviews: " + m.getTotalReviews());
+		
 		
 		
 	}

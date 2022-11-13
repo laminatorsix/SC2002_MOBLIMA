@@ -249,7 +249,7 @@ public class MovieController {
 		System.out.print("Cast: ");
 		Array.printArray(model.getCast());
 		System.out.println();
-		System.out.println(model.getOverallRating() + "/5");
+		System.out.println(model.getOverallRatingPrint() + "/5");
 		
 	}
 	

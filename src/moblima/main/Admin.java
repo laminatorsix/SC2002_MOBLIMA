@@ -8,11 +8,11 @@ public class Admin {
 	private static Scanner s = new Scanner(System.in);
 	private static AdminLoginController adminLoginController = new AdminLoginController();
 	private static MovieController movieController;
-	public static ListingController listingController;
-	public static CineplexController cineplexController;
-	public static CinemaController cinemaController;
-	public static TicketPriceController ticketPriceController;
-	public static HolidayController holidayController;
+	private static ListingController listingController;
+	private static CineplexController cineplexController;
+	private static CinemaController cinemaController;
+	private static TicketPriceController ticketPriceController;
+	private static HolidayController holidayController;
 	
 	
 	private static boolean contWhole = true;
@@ -487,6 +487,12 @@ public class Admin {
 		}
 		
 	}
+	
+	public static int getFilter() {
+		System.out.println("Filter: " + movieController.getFilter());
+		return movieController.getFilter();
+	}
+	
 	public static void configureView() {
 		int choice;
 		boolean cont = true;
@@ -506,13 +512,13 @@ public class Admin {
 			
 			switch(choice) {
 				case 1:
-					movieController.setFilter(0);
-					break;
-				case 2:
 					movieController.setFilter(1);
 					break;
-				case 3:
+				case 2:
 					movieController.setFilter(2);
+					break;
+				case 3:
+					movieController.setFilter(3);
 					break;
 				case 4:
 					movieController.sortByTotalSales();

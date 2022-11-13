@@ -120,13 +120,15 @@ public class Movie implements Serializable {
 	 * @return this Movie's overall rating
 	 */
 	public double getOverallRating() {
+		return overallRating;
+	}
+	
+	public double getOverallRatingPrint() {
 		if(totalReviews <= 1) {
 			return 0;
 		}
-		else
-			return overallRating;
+		return overallRating;
 	}
-	
 	
 	/**
 	 * Gets the movie's total reviews

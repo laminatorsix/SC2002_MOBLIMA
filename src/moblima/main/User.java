@@ -6,6 +6,7 @@ import moblima.controller.*;
 public class User {
 	private static Scanner s = new Scanner(System.in);
 	private static boolean contWhole = true;
+	private static int filter = 0;
 	private static MovieController movieController;
 	private static ListingController listingController;
 	private static MovieReviewController movieReviewController;
@@ -51,6 +52,10 @@ public class User {
 		}
 		
 		
+	}
+	
+	public static void setFilter(int filter) {
+		User.filter = filter;
 	}
 	
 	public static void showMovieDetails() {
@@ -103,7 +108,7 @@ public class User {
 	}
 	
 	public static void showAllMovies() {
-		int filter = movieController.getFilter(), choice, filterChoice = filter;
+		int choice, filterChoice = filter;
 		boolean cont = true;
 		
 		while(cont) {
@@ -116,13 +121,15 @@ public class User {
 			choice = Integer.parseInt(s.nextLine());
 			System.out.println();
 			
+			if(choice == 3)
+				break;
 			if(filter == 3) {
 				System.out.println("-----------------------------");
 				System.out.println("How would you like to sort the movies?\n"
 						+ "1. By Overall Rating\n"
 						+ "2. By Ticket Sales\n");
 				System.out.println("-----------------------------");
-				filterChoice = Integer.parseInt(s.next());
+				filterChoice = Integer.parseInt(s.nextLine());
 			}
 			
 			if(filterChoice == 1)

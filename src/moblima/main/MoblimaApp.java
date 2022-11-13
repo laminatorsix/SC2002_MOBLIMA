@@ -22,6 +22,7 @@ public class MoblimaApp {
 	public static void main(String[] args) {
 		boolean cont = true;
 		int res;
+		int filter = 0;
 		//AdminLogin = new AdminLogin()
 		int admin = -1;
 		while(cont) {
@@ -51,6 +52,7 @@ public class MoblimaApp {
 				Admin.initialise();
 				while(Admin.returnCont()) {
 					Admin.adminModule();
+					filter = Admin.getFilter();
 				}
 				Admin.end();
 				
@@ -58,6 +60,8 @@ public class MoblimaApp {
 			//user functions
 			else if(admin == 0) {
 				User.initialise();
+				System.out.println("Filter: " + filter);
+				User.setFilter(filter);
 				while(User.returnCont()) {
 					User.userModule();
 				}
